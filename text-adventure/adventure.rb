@@ -2,6 +2,7 @@
 
 # Starting character statistics
 $inventory = ""
+$has_weapon = false
 $health = 100
 $feeling = "a bit confused"
 
@@ -36,14 +37,25 @@ def generic_responses
     end
 end
 
+def dead
+  x = rand(0..4)
+  message = ["You died! Way to go, hero.", "Death ensnares your twitching corpse.", "You got yourself killed!", "You're dead! And you were so young.", "Death comes for us all, it just came for you faster."]
+  puts message[x]
+  puts "Game over!"
+  exit(0)
+end
+
 def north_route
   puts "You head north and a troll stands in front of you.
   He appears to want to test the fight function."
   loop do
     input = gets.chomp.downcase
-    if fight_mode(input)
+    if fight_mode(input) && $has_weapon
       puts "You beat the troll!"
       exit(0)
+    elsif fight_mode(input)
+      puts "You try to fight the troll, but you're unarmed.\nThe troll makes quick work of you."
+      dead
     elsif flee_mode(input)
       puts "You flee back to the previous area!"
       start_woods
