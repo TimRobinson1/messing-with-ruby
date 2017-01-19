@@ -50,8 +50,7 @@ def dead
 end
 
 def north_route
-  puts "You head north and a troll stands in front of you.
-  He appears to want to test the fight function."
+  puts "You head north and a troll stands in front of you.\nHe appears to want to test the fight function."
   $feeling = "a bit scared"
   loop do
     input = gets.chomp.downcase
@@ -75,7 +74,21 @@ def north_route
 end
 
 def east_route
-  puts "Going East"
+  puts "You decide to head east and come upon a small village."
+  puts "From where you're standing, you can see a shop,\na tavern and a town hall. What do you do?"
+  loop do
+    input = gets.chomp.downcase
+    if input.include?("tavern")
+      puts "Heading to tavern!"
+    elsif input.include?("shop")
+      puts "Heading to the shop!"
+    elsif input.include?("hall")
+      puts "Heading to town hall!"
+    else
+      $input = input
+      generic_responses
+    end
+  end
 end
 
 def help
@@ -88,8 +101,7 @@ def help
 end
 
 def start_woods
-  puts "You find yourself in a dark wood. A winding path stretches in front of you
-  to the North. There is also a darker path leading East. What do you do?"
+  puts "You find yourself in a dark wood. A winding path stretches in front of you\nto the North. There is also a darker path leading East. What do you do?"
   while true do
     input = gets.chomp.downcase
     if input.include?("north")
