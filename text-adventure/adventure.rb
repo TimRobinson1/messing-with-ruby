@@ -14,6 +14,10 @@ def flee_mode(input)
   input.split(" ").any? { |x| ["flee", "run", "retreat", "fall back", "hide"].include? x }
 end
 
+def talk_mode(input)
+  input.split(" ").any? { |x| ["talk", "chat", "converse", "speak"].include? x }
+end
+
 def get_inventory
   if $inventory.empty?
     inventory = "nothing"
@@ -26,7 +30,7 @@ end
 def generic_responses
     if $input.include?("inventory")
       get_inventory
-    elsif $input.split(" ").any? { |x| ["check health", "show health", "display health"].include? x }
+    elsif $input.split(" ").any? { |x| ["health", "check health", "show health", "display health"].include? x }
       puts "Your current health is: #{$health}"
     elsif $input.include?("help")
       help
@@ -48,6 +52,7 @@ end
 def north_route
   puts "You head north and a troll stands in front of you.
   He appears to want to test the fight function."
+  $feeling = "a bit scared"
   loop do
     input = gets.chomp.downcase
     if fight_mode(input) && $has_weapon
@@ -58,7 +63,10 @@ def north_route
       dead
     elsif flee_mode(input)
       puts "You flee back to the previous area!"
+      $feeling = "a bit shaken up"
       start_woods
+    elsif talk_mode(input)
+      puts "You try to communicate, but the Troll only\nunderstands the Trollian language."
     else
       $input = input
       generic_responses
@@ -93,7 +101,8 @@ def start_woods
     elsif input.include?("help")
       help
     else
-      puts "You stumble around aimlessly"
+      $input = input
+      generic_responses
     end
   end
 end
