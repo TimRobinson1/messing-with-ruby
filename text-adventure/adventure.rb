@@ -89,6 +89,16 @@ def east_route
   end
 end
 
+def town_shop
+  puts "You enter the town shop and see a variety of items for sale."
+  puts "Only a few things catch your eye."
+  puts "Health Potion - 100 gold coins."
+  puts "Lottery Ticket - 1 gold coin."
+  puts "Old warrior's sword - 50 gold coins."
+  puts "Right now, you have 40 gold coins."
+end
+
+
 def help
   puts "General commands:"
   puts "1. 'check inventory' - Displays current inventory."
