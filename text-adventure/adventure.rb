@@ -43,6 +43,7 @@ def save_game
     csv << [$inventory, $has_weapon, $health, $location]
   end
   puts "Game saved successfully!"
+  send("#{$location}")
 end
 
 def generic_responses
@@ -63,6 +64,7 @@ def generic_responses
 end
 
 def north_route
+  $location = __method__
   puts "You head north and a troll stands in front of you.\nHe appears to want to test the fight function."
   $feeling = "a bit scared"
   loop do
@@ -88,6 +90,7 @@ def north_route
 end
 
 def east_route
+  $location = __method__
   puts "You decide to head east and come upon a small village."
   puts "From where you're standing, you can see a shop,\na tavern and a town hall. What do you do?"
   $feeling = "fine"
@@ -107,6 +110,7 @@ def east_route
 end
 
 def town_shop
+  $location = __method__
   puts "You enter the town shop and see a variety of items for sale."
   puts "Only a few things catch your eye."
   puts "Health Potion - 100 gold coins."
@@ -126,6 +130,7 @@ def help
 end
 
 def start_woods
+  $location = __method__
   puts "You find yourself in a dark wood. A winding path stretches in front of you\nto the North. There is also a darker path leading East. What do you do?"
   while true do
     input = gets.chomp.downcase
