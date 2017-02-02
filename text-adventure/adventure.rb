@@ -113,7 +113,7 @@ def east_route
     if input.include?("tavern")
       puts "Heading to tavern!"
     elsif input.include?("shop")
-      puts "Heading to the shop!"
+      puts town_shop
     elsif input.include?("hall")
       puts "Heading to town hall!"
     else
@@ -124,13 +124,13 @@ def east_route
 end
 
 def town_shop
-  $location = __method__
   puts "You enter the town shop and see a variety of items for sale."
   puts "Only a few things catch your eye."
   puts "Health Potion - 100 gold coins."
   puts "Lottery Ticket - 1 gold coin."
   puts "Old warrior's sword - 50 gold coins."
-  puts "Right now, you have 40 gold coins."
+  puts "You realise that you have no money, and are forced to leave."
+  print "You return to town."
 end
 
 
