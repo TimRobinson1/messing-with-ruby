@@ -46,6 +46,17 @@ def save_game
   send("#{$location}")
 end
 
+def load_game
+  CSV.foreach("saves.csv") do |row|
+    $inventory = row[0]
+    $has_weapon = row[1]
+    $health = row[2]
+    $location = row[3]
+  end
+  puts "Game loaded!"
+  send("#{$location}")
+end
+
 def generic_responses
     if $input.include?("inventory")
       get_inventory
@@ -58,6 +69,9 @@ def generic_responses
     elsif $input == "save game"
       puts "Saving the game..."
       save_game
+    elsif $input == "load game"
+      puts "Loading..."
+      load_game
     else
       puts "You're unsure what to do."
     end
