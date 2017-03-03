@@ -29,6 +29,7 @@ puts "Nobody saw the zombie apocalypse coming, yet here it is..."
 puts "You managed to survive the initial outbreak."
 puts "You find yourself in a small house with two other survivors."
 puts "Would you like to name these survivors?"
+
 input = gets.chomp.downcase
 if input == "yes"
   print "Survivor 1: "
