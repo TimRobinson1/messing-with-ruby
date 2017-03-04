@@ -51,6 +51,15 @@ class Map
 
 end
 
+def help
+
+  puts "Each day in the zombie apocalypse is a fight for survival."
+  puts "Keep an eye on your food and water supplies and make sure you"
+  puts "have enough for everybody at the start of each day."
+  puts "Try 'scavenge', 'build', 'check status' or 'rest'"
+  
+end
+
 survivors = []
 
 player = Survivor.new "Player"
@@ -88,7 +97,9 @@ puts "The water supply is still functional."
 puts "You've set up your base in the small house."
 puts "Through the window you can check on the zombie crowds."
 puts "The other survivors, #{surv1.name} and #{surv2.name}, look to you for guidance."
-puts "What do you want to do?"
+puts "Go scavenging (or send others!), check your map, find supplies,
+barricade your base, rest to end the day. Do whatever you can to survive."
+puts "What would you like to do?"
 
 input = gets.chomp.downcase
 
@@ -97,7 +108,7 @@ show_map = ["show map", "check map", "map", "open map", "display map"]
 if show_map.include?(input)
   map.show
 elsif input == "help"
-  puts "helping!"
+  help
 elsif input == "check survivor status"
   puts survivors
 end
