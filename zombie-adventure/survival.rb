@@ -126,6 +126,39 @@ class Info
 
   end
 
+  def query question
+
+    case question
+    when "rest"
+      rest
+    when "build"
+      build
+    when "scavenge"
+      scavenge
+    else
+      puts "Unsure what #{question} is referring to."
+    end
+
+  end
+
+  def rest
+    puts "The rest function will advance time by 1 day."
+    puts "At the start of the new day, if there is enough food"
+    puts "for everyone, then each survivor will take their share."
+    puts "If there is not enough, the responsibilty of rationing it"
+    puts "out falls to you."
+    puts "Zombie activity will change from day to day."
+    puts "Be careful not to rest until you are ready for a new day."
+  end
+
+  def build
+    puts ""
+  end
+
+  def scavenge
+    puts
+  end
+
 end
 
 survivors = {}
@@ -189,6 +222,13 @@ while player.alive? do
   elsif input == "help"
 
     help.main
+
+  elsif (input[0..4] == "help ") && (input.split("").count > 4)
+
+    question = input.split(" ")
+    puts "*"*50
+    help.query question[1]
+    puts "*"*50
 
   elsif input == "check status"
 
