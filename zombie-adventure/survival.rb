@@ -157,7 +157,6 @@ else
     surv1 = Survivor.new name
     survivors[name.downcase] = surv1
     standard = standard - name.split(" ")
-    puts standard
     name = standard.sample
     surv2 = Survivor.new name
     survivors[name.downcase] = surv2
