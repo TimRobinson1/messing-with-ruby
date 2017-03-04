@@ -57,6 +57,7 @@ class Base
     @water_supply = true
     @survivors = 3
     @overcrowded = false
+    @building_supplies = 0
   end
 
   def status
@@ -76,6 +77,7 @@ class Base
     puts "You have #{@food} portions of food - enough for"
     puts "at least #{food_ratio} days worth of food for you"
     puts "and your #{@survivors} survivors."
+    puts "You have #{@building_supplies} units of building supplies."
     if @water_supply
       puts "Your base is connected to a water supply."
     else
@@ -181,17 +183,28 @@ while player.alive? do
   input = gets.chomp.downcase
 
   if show_map.include?(input)
+
     map.show
+
   elsif input == "help"
+
     help.main
+
   elsif input == "check status"
+
     puts "Would you like to check the status of your base, yourself, or your survivors?"
     input = gets.chomp.downcase
+
     if input == "base"
+
       base.status
+
     elsif input == "self" || input == "myself"
+
       player.status
+
     elsif input == "survivors"
+
       puts "Which survivor?"
       holder = []
 
@@ -201,13 +214,19 @@ while player.alive? do
 
       puts "Options: #{holder.join(", ")}"
       input = gets.chomp.downcase
+
       if survivors.include?(input)
         survivors[input].status
       else
-        puts survivors
+        puts "There are no survivors by that name."
       end
+
     else
-      puts "no idea"
+      puts "You cannot check '#{input}'."
     end
+
+  else
+    puts "Uncertain what '#{input}' means.  Try 'help'."
   end
+
 end
