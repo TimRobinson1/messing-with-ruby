@@ -126,13 +126,15 @@ class Info
 
 end
 
-survivors = []
+survivors = {}
 
 base = Base.new
 
 player = Survivor.new "Player"
 
 map = Map.new
+
+standard = ["Amelia", "Andrei", "Joel", "Louis", "Bill", "Zoey", "Francis", "Ellie", "Sarah", "Kim"]
 
 puts "Nobody saw the zombie apocalypse coming, yet here it is..."
 puts "You managed to survive the initial outbreak."
@@ -143,19 +145,22 @@ input = gets.chomp.downcase
 if input == "yes"
   print "Survivor 1: "
   name = gets.chomp
-  survivors.push(name)
   surv1 = Survivor.new name
+  survivors[name].downcase = surv1
   print "Survivor 2: "
   name = gets.chomp
-  survivors.push(name)
   surv2 = Survivor.new name
+  survivors[name].downcase = surv2
 else
-  puts "Of course not, they must already have names!"
-  2.times do
-    survivors.push(["Amelia", "Andrei", "Joel", "Louis", "Bill", "Zoey", "Francis", "Ellie", "Sarah", "Kim"].sample)
-  end
-  surv1 = Survivor.new survivors[0]
-  surv2 = Survivor.new survivors[1]
+  puts "Right, they must already have names!"
+    name = standard.sample
+    surv1 = Survivor.new name
+    survivors[name.downcase] = surv1
+    standard = standard - name.split(" ")
+    puts standard
+    name = standard.sample
+    surv2 = Survivor.new name
+    survivors[name.downcase] = surv2
 end
 
 puts "*"*30
@@ -188,7 +193,20 @@ elsif input == "check status"
   elsif input == "self" || input == "myself"
     player.status
   elsif input == "survivors"
-    puts "SURVIVORS"
+    puts "Which survivor?"
+    holder = []
+
+    survivors.each do |x, y|
+      holder.push(x.capitalize)
+    end
+
+    puts "Options: #{holder.join(", ")}"
+    input = gets.chomp.downcase
+    if survivors.include?(input)
+      survivors[input].status
+    else
+      puts survivors
+    end
   else
     puts "no idea"
   end
