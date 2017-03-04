@@ -1,5 +1,6 @@
-class Player
-  def initialize
+class Survivor
+  def initialize name
+    @name = name
     @health = 100
     @weapons = []
     @illness = false
@@ -10,6 +11,11 @@ class Player
   def alive?
     @health > 0
   end
+
+  def name
+    @name
+  end
+
 end
 
 class Base
@@ -43,12 +49,11 @@ class Map
     @map.gsub! choice.to_s, "X"
   end
 
-
 end
 
 survivors = []
 
-player = Player.new
+player = Survivor.new "Player"
 
 map = Map.new
 
@@ -62,14 +67,18 @@ if input == "yes"
   print "Survivor 1: "
   name = gets.chomp
   survivors.push(name)
+  surv1 = Survivor.new name
   print "Survivor 2: "
   name = gets.chomp
   survivors.push(name)
+  surv2 = Survivor.new name
 else
   puts "Of course not, they must already have names!"
   2.times do
     survivors.push(["Amelia", "Andrei", "Joel", "Louis", "Bill", "Zoey", "Francis", "Ellie", "Sarah", "Kim"].sample)
   end
+  surv1 = Survivor.new survivors[0]
+  surv2 = Survivor.new survivors[1]
 end
 
 puts "*"*30
@@ -78,7 +87,7 @@ puts "You have 10 portions of daily food."
 puts "The water supply is still functional."
 puts "You've set up your base in the small house."
 puts "Through the window you can check on the zombie crowds."
-puts "The other survivors look to you for guidance."
+puts "The other survivors, #{surv1.name} and #{surv2.name}, look to you for guidance."
 puts "What do you want to do?"
 
 input = gets.chomp.downcase
