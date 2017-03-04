@@ -16,6 +16,38 @@ class Survivor
     @name
   end
 
+  def status
+    print "#{@name} has #{@health} health, "
+    if @weapons == []
+      print "has no weapons, "
+    else
+      print "has a #{weapons} as a weapon, "
+    end
+
+    if @illness
+      print "is looking rather pale, "
+    else
+      print "is looking healthy, "
+    end
+
+    if @hunger < 5
+      print "is pretty hungry, "
+    elsif @hunger < 3
+      print "is starving, "
+    else
+      print "is not hungry, "
+    end
+
+    if @water < 5
+      puts "and is pretty thirsty."
+    elsif @water < 3
+      puts "and is dying of thirst."
+    else
+      puts "and is not thirsty."
+    end
+
+  end
+
 end
 
 class Base
@@ -154,7 +186,7 @@ elsif input == "check status"
   if input == "base"
     base.status
   elsif input == "self" || input == "myself"
-    puts "SELF!"
+    player.status
   elsif input == "survivors"
     puts "SURVIVORS"
   else
