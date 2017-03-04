@@ -21,29 +21,37 @@ class Base
   end
 end
 
+class Map
+  def initialize
+    @map = "\n    .....[1][2]..[3]
+    ................
+    .........[4]....
+    ................
+    [5]..[BASE]..[6]
+    ................
+    ...[7]..........
+    ................
+    ......[8]..[9]..\n "
+    @initial_map = @map
+  end
+
+  def show
+    puts @map
+  end
+
+  def visit choice
+    @map.gsub! choice.to_s, "X"
+  end
+
+
+end
+
 survivors = []
 
 player = Player.new
 
-puts "Nobody saw the zombie apocalypse coming, yet here it is..."
-puts "You managed to survive the initial outbreak."
-puts "You find yourself in a small house with two other survivors."
-puts "Would you like to name these survivors?"
+map = Map.new
 
-input = gets.chomp.downcase
-if input == "yes"
-  print "Survivor 1: "
-  name = gets.chomp
-  survivors.push(name)
-  print "Survivor 2: "
-  name = gets.chomp
-  survivors.push(name)
-else
-  puts "Of course not, they must already have names!"
-  2.times do
-    survivors.push(["Amelia", "Andrei", "Joel", "Louis", "Bill", "Zoey", "Francis", "Ellie", "Sarah", "Kim"].sample)
-  end
-end
+map.visit 2
 
-puts "Let's get started."
-puts "Your survivors are: #{survivors}"
+map.show
