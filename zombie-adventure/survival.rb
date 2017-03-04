@@ -146,11 +146,11 @@ if input == "yes"
   print "Survivor 1: "
   name = gets.chomp
   surv1 = Survivor.new name
-  survivors[name].downcase = surv1
+  survivors[name.downcase] = surv1
   print "Survivor 2: "
   name = gets.chomp
   surv2 = Survivor.new name
-  survivors[name].downcase = surv2
+  survivors[name.downcase] = surv2
 else
   puts "Right, they must already have names!"
     name = standard.sample
@@ -161,6 +161,10 @@ else
     surv2 = Survivor.new name
     survivors[name.downcase] = surv2
 end
+
+show_map = ["show map", "check map", "map", "open map", "display map"]
+
+help = Info.new
 
 puts "*"*30
 puts "A new day dawns.  Day 1."
@@ -173,40 +177,37 @@ puts "Go scavenging (or send others!), check your map, find supplies,
 barricade your base, rest to end the day. Do whatever you can to survive."
 puts "What would you like to do?"
 
-input = gets.chomp.downcase
-
-
-show_map = ["show map", "check map", "map", "open map", "display map"]
-
-help = Info.new
-
-if show_map.include?(input)
-  map.show
-elsif input == "help"
-  help.main
-elsif input == "check status"
-  puts "Would you like to check the status of your base, yourself, or your survivors?"
+while player.alive? do
   input = gets.chomp.downcase
-  if input == "base"
-    base.status
-  elsif input == "self" || input == "myself"
-    player.status
-  elsif input == "survivors"
-    puts "Which survivor?"
-    holder = []
 
-    survivors.each do |x, y|
-      holder.push(x.capitalize)
-    end
-
-    puts "Options: #{holder.join(", ")}"
+  if show_map.include?(input)
+    map.show
+  elsif input == "help"
+    help.main
+  elsif input == "check status"
+    puts "Would you like to check the status of your base, yourself, or your survivors?"
     input = gets.chomp.downcase
-    if survivors.include?(input)
-      survivors[input].status
+    if input == "base"
+      base.status
+    elsif input == "self" || input == "myself"
+      player.status
+    elsif input == "survivors"
+      puts "Which survivor?"
+      holder = []
+
+      survivors.each do |x, y|
+        holder.push(x.capitalize)
+      end
+
+      puts "Options: #{holder.join(", ")}"
+      input = gets.chomp.downcase
+      if survivors.include?(input)
+        survivors[input].status
+      else
+        puts survivors
+      end
     else
-      puts survivors
+      puts "no idea"
     end
-  else
-    puts "no idea"
   end
 end
