@@ -22,9 +22,35 @@ class Base
   def initialize
     @safety = 100
     @food = 10
-    @water_access = true
+    @water_supply = true
+    @survivors = 3
     @overcrowded = false
   end
+
+  def status
+    n = @safety
+    puts case n
+    when (85..100)
+      "The base is very secure."
+    when (50..84)
+      "The base is fairly secure."
+    when (30..49)
+      "The base is not very secure."
+    when (1..30)
+      "The base is extremely vulnerable."
+    end
+    n = @food
+    food_ratio = @food / @survivors
+    puts "You have #{@food} portions of food - enough for"
+    puts "at least #{food_ratio} days worth of food for you"
+    puts "and your #{@survivors} survivors."
+    if @water_supply
+      puts "Your base is connected to a water supply."
+    else
+      puts "Your base has to rely on scavenged water."
+    end
+  end
+
 end
 
 class Map
@@ -43,6 +69,9 @@ class Map
 
   def show
     puts @map
+    puts "You've got a map of the town and marked out 9 areas
+that are potentially of interest.  Areas of interest that
+you've searched are marked with an 'X'"
   end
 
   def visit choice
@@ -51,16 +80,23 @@ class Map
 
 end
 
-def help
+class Info
 
-  puts "Each day in the zombie apocalypse is a fight for survival."
-  puts "Keep an eye on your food and water supplies and make sure you"
-  puts "have enough for everybody at the start of each day."
-  puts "Try 'scavenge', 'build', 'check status' or 'rest'"
-  
+  def main
+
+    puts "Each day in the zombie apocalypse is a fight for survival."
+    puts "Keep an eye on your food and water supplies and make sure you"
+    puts "have enough for everybody at the start of each day."
+    puts "Try 'scavenge', 'build', 'check status' or 'rest'"
+    puts "Use help <query> for more information."
+
+  end
+
 end
 
 survivors = []
+
+base = Base.new
 
 player = Survivor.new "Player"
 
@@ -103,12 +139,25 @@ puts "What would you like to do?"
 
 input = gets.chomp.downcase
 
+
 show_map = ["show map", "check map", "map", "open map", "display map"]
+
+help = Info.new
 
 if show_map.include?(input)
   map.show
 elsif input == "help"
-  help
-elsif input == "check survivor status"
-  puts survivors
+  help.main
+elsif input == "check status"
+  puts "Would you like to check the status of your base, yourself, or your survivors?"
+  input = gets.chomp.downcase
+  if input == "base"
+    base.status
+  elsif input == "self" || input == "myself"
+    puts "SELF!"
+  elsif input == "survivors"
+    puts "SURVIVORS"
+  else
+    puts "no idea"
+  end
 end
