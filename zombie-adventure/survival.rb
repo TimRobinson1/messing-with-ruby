@@ -152,11 +152,31 @@ class Info
   end
 
   def build
-    puts ""
+    puts "not implemented"
   end
 
   def scavenge
-    puts
+    puts "not implemented"
+  end
+
+end
+
+def survivor_choice survivors
+
+  puts "Which survivor?"
+  holder = []
+
+  survivors.each do |x, y|
+    holder.push(x.capitalize)
+  end
+
+  puts "Options: #{holder.join(", ")}"
+  input = gets.chomp.downcase
+
+  if survivors.include?(input)
+    survivors[input].status
+  else
+    puts "There are no survivors by that name."
   end
 
 end
@@ -215,35 +235,52 @@ puts "What would you like to do?"
 while player.alive? do
   input = gets.chomp.downcase
 
-  if show_map.include?(input)
-
-    map.show
-
-  elsif input == "help"
-
-    help.main
-
-  elsif (input[0..4] == "help ") && (input.split("").count > 4)
+  if (input[0..4] == "help ") && (input.split("").count > 4)
 
     question = input.split(" ")
     puts "*"*50
     help.query question[1]
     puts "*"*50
 
-  elsif input == "check status"
+  end
+
+  case input
+  when show_map.include?(input)
+
+    map.show
+
+  when "help"
+
+    help.main
+
+  when "check base status", "base status"
+
+    base.status
+
+  when "check my status", "my status", "player status", "check player status"
+
+    player.status
+
+  when "check survivor status", "check survivors status", "check survivors' status", "survivors status", "survivors' status", "survivor status"
+
+    survivor_choice(survivors)
+
+  when "check status", "status"
 
     puts "Would you like to check the status of your base, yourself, or your survivors?"
+
     input = gets.chomp.downcase
 
-    if input == "base"
+    case input
+    when "base"
 
       base.status
 
-    elsif input == "self" || input == "myself"
+    when "myself", "me", "self"
 
       player.status
 
-    elsif input == "survivors"
+    when "survivors"
 
       puts "Which survivor?"
       holder = []
