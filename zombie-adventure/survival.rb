@@ -217,93 +217,111 @@ else
     survivors[name.downcase] = surv2
 end
 
-show_map = ["show map", "check map", "map", "open map", "display map"]
-
 help = Info.new
 
-puts "*"*30
-puts "A new day dawns.  Day 1."
-puts "You have 10 portions of daily food."
-puts "The water supply is still functional."
-puts "You've set up your base in the small house."
-puts "Through the window you can check on the zombie crowds."
-puts "The other survivors, #{surv1.name} and #{surv2.name}, look to you for guidance."
-puts "Go scavenging (or send others!), check your map, find supplies,
-barricade your base, rest to end the day. Do whatever you can to survive."
-puts "What would you like to do?"
+day = 1
 
 while player.alive? do
-  input = gets.chomp.downcase
 
-  if (input[0..4] == "help ") && (input.split("").count > 4)
+  puts "*"*30
+  puts "A new day dawns.  Day #{day}"
+  puts "You have 10 portions of daily food."
+  puts "The water supply is still functional."
 
-    question = input.split(" ")
-    puts "*"*50
-    help.query question[1]
-    puts "*"*50
-
+  if day == 1
+    puts "You've set up your base in the small house."
+    puts "Through the window you can check on the zombie crowds."
+    puts "The other survivors, #{surv1.name} and #{surv2.name}, look to you for guidance."
+    puts "Go scavenging (or send others!), check your map, find supplies, "
+    puts "barricade your base, rest to end the day. Do whatever you can to survive."
   end
 
-  case input
-  when show_map.include?(input)
+  puts "What would you like to do?"
 
-    map.show
-
-  when "help"
-
-    help.main
-
-  when "check base status", "base status"
-
-    base.status
-
-  when "check my status", "my status", "player status", "check player status"
-
-    player.status
-
-  when "check survivor status", "check survivors status", "check survivors' status", "survivors status", "survivors' status", "survivor status"
-
-    survivor_choice(survivors)
-
-  when "check status", "status"
-
-    puts "Would you like to check the status of your base, yourself, or your survivors?"
-
+  while player.alive? do
     input = gets.chomp.downcase
 
+    if (input[0..4] == "help ") && (input.split("").count > 5)
+
+      question = input.split(" ")
+      puts "*"*50
+      help.query question[1]
+      puts "*"*50
+
+    end
+
     case input
-    when "base"
+
+    when "rest"
+
+      puts 'rest'
+      break
+
+    when "show map", "check map", "map", "open map", "display map"
+
+      map.show
+
+    when "help", "help "
+
+      help.main
+
+    when "check base status", "base status"
 
       base.status
 
-    when "myself", "me", "self"
+    when "check my status", "my status", "player status", "check player status"
 
       player.status
 
-    when "survivors"
+    when "check survivor status", "check survivors status", "check survivors' status", "survivors status", "survivors' status", "survivor status"
 
-      puts "Which survivor?"
-      holder = []
+      survivor_choice(survivors)
 
-      survivors.each do |x, y|
-        holder.push(x.capitalize)
-      end
+    when "check status", "status"
 
-      puts "Options: #{holder.join(", ")}"
+      puts "Would you like to check the status of your base, yourself, or your survivors?"
+
       input = gets.chomp.downcase
 
-      if survivors.include?(input)
-        survivors[input].status
+      case input
+      when "base"
+
+        base.status
+
+      when "myself", "me", "self"
+
+        player.status
+
+      when "survivors"
+
+        puts "Which survivor?"
+        holder = []
+
+        survivors.each do |x, y|
+          holder.push(x.capitalize)
+        end
+
+        puts "Options: #{holder.join(", ")}"
+        input = gets.chomp.downcase
+
+        if survivors.include?(input)
+          survivors[input].status
+        else
+          puts "There are no survivors by that name."
+        end
+
       else
-        puts "There are no survivors by that name."
+        puts "You cannot check '#{input}'."
       end
 
     else
-      puts "You cannot check '#{input}'."
+      puts "Uncertain what '#{input}' means.  Try 'help'."
     end
 
-  else
-    puts "Uncertain what '#{input}' means.  Try 'help'."
   end
+
+  puts "New day"
+
+  day += 1
 
 end
