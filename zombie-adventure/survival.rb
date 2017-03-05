@@ -5,11 +5,7 @@ class Survivor
     @weapons = []
     @illness = false
     @hunger = 10
-    @water = 10
-  end
-
-  def alive?
-    @health > 0
+    @thirst = 10
   end
 
   def name
@@ -30,34 +26,84 @@ class Survivor
       print "is looking healthy, "
     end
 
-    if @hunger < 5
+    if @hunger < 10
+      print "is a tad hungry"
+    elsif @hunger < 8
       print "is pretty hungry, "
-    elsif @hunger < 3
+    elsif @hunger < 4
       print "is starving, "
+    elsif @hunger < 2
+      print "is dying of hunger, "
     else
       print "is not hungry, "
     end
 
-    if @water < 5
+    if @thirst < 5
       puts "and is pretty thirsty."
-    elsif @water < 3
+    elsif @thirst < 3
       puts "and is dying of thirst."
     else
       puts "and is not thirsty."
     end
+  end
+
+  def supplies_consumed base
+    if base.water? == false
+      @thirst -= 1
+    end
+
+    if base.food?
+      base.eat
+    else
+      @hunger -= 1
+    end
 
   end
 
+  def test_show
+    puts "Hunger: #{@hunger}"
+    puts "Thirst: #{@thirst}"
+  end
+
+  def alive?
+    if (@hunger == 0) || (@thirst == 0) || (@health <= 0)
+      false
+    else
+      true
+    end
+  end
 end
 
 class Base
   def initialize
     @safety = 100
     @food = 10
+    @water = 10
     @water_supply = true
     @survivors = 3
     @overcrowded = false
     @building_supplies = 0
+  end
+
+  def water?
+    @water_supply
+  end
+
+  def food?
+    if @food <= 0
+      false
+    else
+      true
+    end
+  end
+
+  def eat
+    @food -= 1
+  end
+
+  def test_show
+    puts "Food: #{@food}"
+    puts "Water: #{@water}"
   end
 
   def status
@@ -189,6 +235,8 @@ player = Survivor.new "Player"
 
 map = Map.new
 
+help = Info.new
+
 standard = ["Amelia", "Andrei", "Joel", "Louis", "Bill", "Zoey", "Francis", "Ellie", "Sarah", "Kim"]
 
 puts "Nobody saw the zombie apocalypse coming, yet here it is..."
@@ -216,8 +264,6 @@ else
     surv2 = Survivor.new name
     survivors[name.downcase] = surv2
 end
-
-help = Info.new
 
 day = 1
 
@@ -323,5 +369,27 @@ while player.alive? do
   puts "New day"
 
   day += 1
+
+  player.supplies_consumed(base)
+  surv1.supplies_consumed(base)
+  surv2.supplies_consumed(base)
+
+  survivors.each do |name, person|
+
+    if person.alive? == false
+      puts "#{name.capitalize} has died!"
+    end
+
+  end
+
+  if player.alive? == false
+    puts "You died!  Game over."
+    exit(0)
+  end
+
+  base.test_show
+  player.test_show
+  surv1.test_show
+  surv2.test_show
 
 end
