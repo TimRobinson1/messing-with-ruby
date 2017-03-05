@@ -66,12 +66,24 @@ class Survivor
   end
 
   def alive?
-    if (@hunger == 0) || (@thirst == 0) || (@health <= 0)
+    if @hunger == 0
+      @death = "hunger"
+      false
+    elsif @thirst == 0
+      @death = "thirst"
+      false
+    elsif @health <= 0
+      @death = "serious injuries"
       false
     else
       true
     end
   end
+
+  def death
+    @death
+  end
+
 end
 
 class Base
@@ -366,8 +378,6 @@ while player.alive? do
 
   end
 
-  puts "New day"
-
   day += 1
 
   player.supplies_consumed(base)
@@ -377,19 +387,14 @@ while player.alive? do
   survivors.each do |name, person|
 
     if person.alive? == false
-      puts "#{name.capitalize} has died!"
+      puts "#{name.capitalize} has died of #{person.death}!"
     end
 
   end
 
   if player.alive? == false
-    puts "You died!  Game over."
+    puts "You died of #{player.death}!  Game over."
     exit(0)
   end
-
-  base.test_show
-  player.test_show
-  surv1.test_show
-  surv2.test_show
 
 end
