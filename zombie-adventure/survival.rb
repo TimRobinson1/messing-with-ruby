@@ -109,6 +109,10 @@ class Base
     end
   end
 
+  def food_supply
+    @food
+  end
+
   def eat
     @food -= 1
   end
@@ -283,7 +287,11 @@ while player.alive? do
 
   puts "*"*30
   puts "A new day dawns.  Day #{day}"
-  puts "You have 10 portions of daily food."
+  if base.food_supply > 0
+    puts "You have #{base.food_supply} portions of daily food."
+  else
+    puts "There's no food left in storage."
+  end
   puts "The water supply is still functional."
 
   if day == 1
