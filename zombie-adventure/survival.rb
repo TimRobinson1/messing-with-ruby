@@ -249,6 +249,21 @@ end
 
 def scavenge
   puts "What would you like to scavenge for?"
+  input = gets.chomp.downcase
+  case input
+  when "food"
+    puts "Let's find some food."
+  when "water"
+    puts "Let's get some more water."
+  when "building supplies", "building materials"
+    puts "Let's find some scrap to work with."
+  when "nevermind", "nothing"
+    puts "We'll scavenge later."
+  else
+    puts "Can't scavenge for '#{input}'."
+    puts "If you don't want to scavenge, use 'nevermind'."
+    scavenge
+  end
 end
 
 def survivor_choice survivors
