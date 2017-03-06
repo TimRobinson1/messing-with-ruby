@@ -259,15 +259,15 @@ def survivor_choice survivors
 
 end
 
-survivors = {}
-
 base = Base.new
 
-player = Survivor.new "Player"
+player = Survivor.new "player"
 
 map = Map.new
 
 help = Info.new
+
+survivors = {"player" => player}
 
 standard = ["Amelia", "Andrei", "Joel", "Louis", "Bill", "Zoey", "Francis", "Ellie", "Sarah", "Kim"]
 
@@ -300,6 +300,31 @@ end
 day = 1
 
 while player.alive? do
+
+  if day > 1
+
+    if survivors.count >= base.food_supply
+      puts "Not enough food for everybody!"
+    else
+      player.supplies_consumed(base)
+      surv1.supplies_consumed(base)
+      surv2.supplies_consumed(base)
+    end
+
+    survivors.each do |name, person|
+
+      if person.alive? == false
+        puts "#{name.capitalize} has died of #{person.death}!"
+      end
+
+    end
+
+  end
+
+  if player.alive? == false
+    puts "You died of #{player.death}!  Game over."
+    exit(0)
+  end
 
   puts "*"*30
   puts "A new day dawns.  Day #{day}"
@@ -409,23 +434,6 @@ while player.alive? do
   end
 
   day += 1
-
-  player.supplies_consumed(base)
-  surv1.supplies_consumed(base)
-  surv2.supplies_consumed(base)
-
-  survivors.each do |name, person|
-
-    if person.alive? == false
-      puts "#{name.capitalize} has died of #{person.death}!"
-    end
-
-  end
-
-  if player.alive? == false
-    puts "You died of #{player.death}!  Game over."
-    exit(0)
-  end
 
   player.test_show
   surv1.test_show
