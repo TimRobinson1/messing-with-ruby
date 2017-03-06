@@ -103,7 +103,7 @@ class Base
     @food = 11
     @water = 10
     @water_supply = true
-    @survivors = 3
+    @peoeple = 3
     @overcrowded = false
     @building_supplies = 0
     @zombie_activity = "small"
@@ -159,10 +159,10 @@ class Base
       "The base is extremely vulnerable."
     end
 
-    food_ratio = @food / @survivors
+    food_ratio = @food / @people
     puts "You have #{@food} portions of food - enough for"
     puts "at least #{food_ratio} days worth of food for you"
-    puts "and your #{@survivors} survivors."
+    puts "and your #{@people} survivors."
     puts "You have #{@building_supplies} units of building supplies."
     if @water_supply
       puts "Your base is connected to a water supply."
@@ -247,16 +247,20 @@ class Info
 
 end
 
-def scavenge
+def scavenge(base)
   puts "What would you like to scavenge for?"
   input = gets.chomp.downcase
   case input
   when "food"
-    puts "Let's find some food."
+    target = "food"
   when "water"
-    puts "Let's get some more water."
+    if base.water?
+      puts "The base has its own water supply."
+    else
+      target = "water"
+    end
   when "building supplies", "building materials"
-    puts "Let's find some scrap to work with."
+    target = "building supplies"
   when "nevermind", "nothing"
     puts "We'll scavenge later."
   else
@@ -264,22 +268,37 @@ def scavenge
     puts "If you don't want to scavenge, use 'nevermind'."
     scavenge
   end
+
+  puts "Who should go on the hunt for #{target}?"
+
+  $survivors.each do |name, person|
+    puts "-- #{name.capitalize}"
+  end
+
+  input = gets.chomp.downcase
+
+  if $survivors.include?(input)
+    puts "Sending #{input.capitalize} to scavenge for #{target}!"
+  else
+    puts "There are no survivors by that name."
+  end
+
 end
 
-def survivor_choice survivors
+def survivor_choice
 
   puts "Which survivor?"
   holder = []
 
-  survivors.each do |x, y|
+  $survivors.each do |x, y|
     holder.push(x.capitalize)
   end
 
   puts "Options: #{holder.join(", ")}"
   input = gets.chomp.downcase
 
-  if survivors.include?(input)
-    survivors[input].status
+  if $survivors.include?(input)
+    $survivors[input].status
   else
     puts "There are no survivors by that name."
   end
@@ -294,7 +313,7 @@ map = Map.new
 
 help = Info.new
 
-survivors = {"player" => player}
+$survivors = {"player" => player}
 
 standard = ["Amelia", "Andrei", "Joel", "Louis", "Bill", "Zoey", "Francis", "Ellie", "Sarah", "Kim"]
 
@@ -308,20 +327,20 @@ if input == "yes"
   print "Survivor 1: "
   name = gets.chomp
   surv1 = Survivor.new name
-  survivors[name.downcase] = surv1
+  $survivors[name.downcase] = surv1
   print "Survivor 2: "
   name = gets.chomp
   surv2 = Survivor.new name
-  survivors[name.downcase] = surv2
+  $survivors[name.downcase] = surv2
 else
   puts "Right, they must already have names!"
   name = standard.sample
   surv1 = Survivor.new name
-  survivors[name.downcase] = surv1
+  $survivors[name.downcase] = surv1
   standard = standard - name.split(" ")
   name = standard.sample
   surv2 = Survivor.new name
-  survivors[name.downcase] = surv2
+  $survivors[name.downcase] = surv2
 end
 
 day = 1
@@ -330,19 +349,19 @@ while player.alive? do
 
   if day > 1
 
-    if (survivors.count >= base.food_supply) && (base.food_supply != 0)
+    if ($survivors.count >= base.food_supply) && (base.food_supply != 0)
       puts "There's not enough food in storage for everyone to eat"
       puts "this morning. As leader, it is your job to ration it out."
-      puts "Food portions: #{base.food_supply}     Survivors: #{survivors.count}"
+      puts "Food portions: #{base.food_supply}     Survivors: #{$survivors.count}"
       puts "Who should be the first to eat?"
-      survivors.each do |name, person|
+      $survivors.each do |name, person|
         person.pre_ration
         puts "-- #{name.capitalize}"
       end
       while base.food_supply > 0 do
         input = gets.chomp.downcase
-        if survivors.include?(input)
-          survivors[input].ration
+        if $survivors.include?(input)
+          $survivors[input].ration
           base.eat
           puts "#{input.capitalize} has eaten."
           if base.food_supply > 0
@@ -359,7 +378,7 @@ while player.alive? do
       surv2.supplies_consumed(base)
     end
 
-    survivors.each do |name, person|
+    $survivors.each do |name, person|
 
       if person.alive? == false
         puts "#{name.capitalize} has died of #{person.death}!"
@@ -419,7 +438,7 @@ while player.alive? do
       base.test_food_add
 
     when "scavenge"
-      scavenge
+      scavenge(base)
 
     when "show map", "check map", "map", "open map", "display map"
 
@@ -439,7 +458,7 @@ while player.alive? do
 
     when "check survivor status", "check survivors status", "check survivors' status", "survivors status", "survivors' status", "survivor status"
 
-      survivor_choice(survivors)
+      survivor_choice
 
     when "check status", "status"
 
@@ -461,15 +480,15 @@ while player.alive? do
         puts "Which survivor?"
         holder = []
 
-        survivors.each do |x, y|
+        $survivors.each do |x, y|
           holder.push(x.capitalize)
         end
 
         puts "Options: #{holder.join(", ")}"
         input = gets.chomp.downcase
 
-        if survivors.include?(input)
-          survivors[input].status
+        if $survivors.include?(input)
+          $survivors[input].status
         else
           puts "There are no survivors by that name."
         end
