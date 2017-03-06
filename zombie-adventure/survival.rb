@@ -26,14 +26,14 @@ class Survivor
       print "is looking healthy, "
     end
 
-    if @hunger < 10
-      print "is a tad hungry, "
-    elsif @hunger < 8
-      print "is pretty hungry, "
+    if @hunger < 2
+      print "is dying of hunger, "
     elsif @hunger < 4
       print "is starving, "
-    elsif @hunger < 2
-      print "is dying of hunger, "
+    elsif @hunger < 8
+      print "is pretty hungry, "
+    elsif @hunger < 10
+      print "is a tad hungry, "
     else
       print "is not hungry, "
     end
