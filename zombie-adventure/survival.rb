@@ -54,6 +54,9 @@ class Survivor
 
     if base.food?
       base.eat
+      if @hunger < 10
+        @hunger += 1
+      end
     else
       @hunger -= 1
     end
@@ -130,6 +133,10 @@ class Base
   def test_show
     puts "Food: #{@food}"
     puts "Water: #{@water}"
+  end
+
+  def test_food_add
+    @food = 10
   end
 
   def status
@@ -281,13 +288,13 @@ if input == "yes"
   survivors[name.downcase] = surv2
 else
   puts "Right, they must already have names!"
-    name = standard.sample
-    surv1 = Survivor.new name
-    survivors[name.downcase] = surv1
-    standard = standard - name.split(" ")
-    name = standard.sample
-    surv2 = Survivor.new name
-    survivors[name.downcase] = surv2
+  name = standard.sample
+  surv1 = Survivor.new name
+  survivors[name.downcase] = surv1
+  standard = standard - name.split(" ")
+  name = standard.sample
+  surv2 = Survivor.new name
+  survivors[name.downcase] = surv2
 end
 
 day = 1
@@ -335,6 +342,9 @@ while player.alive? do
     when "check window", "look out window", "window", "look at zombies", "look outside", "check outside"
       base.window_check
 
+    when "add food"
+      base.test_food_add
+
     when "show map", "check map", "map", "open map", "display map"
 
       map.show
@@ -362,11 +372,11 @@ while player.alive? do
       input = gets.chomp.downcase
 
       case input
-      when "base"
+      when "base", "home"
 
         base.status
 
-      when "myself", "me", "self"
+      when "myself", "me", "self", "player"
 
         player.status
 
@@ -416,6 +426,10 @@ while player.alive? do
     puts "You died of #{player.death}!  Game over."
     exit(0)
   end
+
+  player.test_show
+  surv1.test_show
+  surv2.test_show
 
   base.zombies_daily_change
 
