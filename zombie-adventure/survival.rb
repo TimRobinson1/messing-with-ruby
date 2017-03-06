@@ -27,7 +27,7 @@ class Survivor
     end
 
     if @hunger < 10
-      print "is a tad hungry"
+      print "is a tad hungry, "
     elsif @hunger < 8
       print "is pretty hungry, "
     elsif @hunger < 4
@@ -95,6 +95,16 @@ class Base
     @survivors = 3
     @overcrowded = false
     @building_supplies = 0
+    @zombie_activity = "small"
+  end
+
+  def window_check
+    puts "Today the zombie hordes outside are #{@zombie_activity}."
+  end
+
+  def zombies_daily_change
+    levels = ["eerily quiet", "very small", "quite small", "small", "pretty big", "enormous", "completely filling the streets"]
+    @zombie_activity = levels.sample
   end
 
   def water?
@@ -123,8 +133,7 @@ class Base
   end
 
   def status
-    n = @safety
-    puts case n
+    puts case @safety
     when (85..100)
       "The base is very secure."
     when (50..84)
@@ -134,7 +143,7 @@ class Base
     when (1..30)
       "The base is extremely vulnerable."
     end
-    n = @food
+
     food_ratio = @food / @survivors
     puts "You have #{@food} portions of food - enough for"
     puts "at least #{food_ratio} days worth of food for you"
@@ -323,6 +332,9 @@ while player.alive? do
       puts 'rest'
       break
 
+    when "check window", "look out window", "window", "look at zombies", "look outside", "check outside"
+      base.window_check
+
     when "show map", "check map", "map", "open map", "display map"
 
       map.show
@@ -404,5 +416,7 @@ while player.alive? do
     puts "You died of #{player.death}!  Game over."
     exit(0)
   end
+
+  base.zombies_daily_change
 
 end
