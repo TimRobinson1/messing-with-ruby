@@ -247,6 +247,10 @@ class Info
 
 end
 
+def scavenge
+  puts "What would you like to scavenge for?"
+end
+
 def survivor_choice survivors
 
   puts "Which survivor?"
@@ -322,12 +326,16 @@ while player.alive? do
       end
       while base.food_supply > 0 do
         input = gets.chomp.downcase
-        survivors[input].ration
-        base.eat
-        puts "#{input.capitalize} has eaten."
-        if base.food_supply > 0
-          puts "Who should eat next?"
-          puts "Food remaining: #{base.food_supply} portions."
+        if survivors.include?(input)
+          survivors[input].ration
+          base.eat
+          puts "#{input.capitalize} has eaten."
+          if base.food_supply > 0
+            puts "Who should eat next?"
+            puts "Food remaining: #{base.food_supply} portions."
+          end
+        else
+          puts "Who?"
         end
       end
     else
@@ -394,6 +402,9 @@ while player.alive? do
 
     when "add food"
       base.test_food_add
+
+    when "scavenge"
+      scavenge
 
     when "show map", "check map", "map", "open map", "display map"
 
