@@ -47,6 +47,14 @@ class Survivor
     end
   end
 
+  def ration
+    @hunger += 1
+  end
+
+  def pre_ration
+    @hunger -= 1
+  end
+
   def supplies_consumed base
     if base.water? == false
       @thirst -= 1
@@ -92,7 +100,7 @@ end
 class Base
   def initialize
     @safety = 100
-    @food = 10
+    @food = 11
     @water = 10
     @water_supply = true
     @survivors = 3
@@ -261,13 +269,13 @@ end
 
 base = Base.new
 
-player = Survivor.new "player"
+player = Survivor.new "you"
 
 map = Map.new
 
 help = Info.new
 
-survivors = {"player" => player}
+survivors = {"you" => player}
 
 standard = ["Amelia", "Andrei", "Joel", "Louis", "Bill", "Zoey", "Francis", "Ellie", "Sarah", "Kim"]
 
@@ -304,7 +312,23 @@ while player.alive? do
   if day > 1
 
     if survivors.count >= base.food_supply
-      puts "Not enough food for everybody!"
+      puts "There's not enough food in storage for everyone to eat"
+      puts "this morning. As leader, it is your job to ration it out."
+      puts "Food portions: #{base.food_supply}     Survivors: #{survivors.count}"
+      puts "Who should be the first to eat?"
+      survivors.each do |name, person|
+        person.pre_ration
+        puts "-- #{name.capitalize}"
+      end
+      while base.food_supply > 0 do
+        input = gets.chomp.downcase
+        survivors[input].ration
+        base.eat
+        puts "#{input.capitalize} has eaten."
+        if base.food_supply > 0
+          puts "Who should eat next?"
+        end
+      end
     else
       player.supplies_consumed(base)
       surv1.supplies_consumed(base)
