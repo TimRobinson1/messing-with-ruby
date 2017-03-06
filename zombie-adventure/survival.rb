@@ -269,13 +269,13 @@ end
 
 base = Base.new
 
-player = Survivor.new "you"
+player = Survivor.new "player"
 
 map = Map.new
 
 help = Info.new
 
-survivors = {"you" => player}
+survivors = {"player" => player}
 
 standard = ["Amelia", "Andrei", "Joel", "Louis", "Bill", "Zoey", "Francis", "Ellie", "Sarah", "Kim"]
 
@@ -311,7 +311,7 @@ while player.alive? do
 
   if day > 1
 
-    if survivors.count >= base.food_supply
+    if (survivors.count >= base.food_supply) && (base.food_supply != 0)
       puts "There's not enough food in storage for everyone to eat"
       puts "this morning. As leader, it is your job to ration it out."
       puts "Food portions: #{base.food_supply}     Survivors: #{survivors.count}"
@@ -327,6 +327,7 @@ while player.alive? do
         puts "#{input.capitalize} has eaten."
         if base.food_supply > 0
           puts "Who should eat next?"
+          puts "Food remaining: #{base.food_supply} portions."
         end
       end
     else
