@@ -6,6 +6,7 @@ class Survivor
     @illness = false
     @hunger = 10
     @thirst = 10
+    @scavenging = false
   end
 
   def name
@@ -53,6 +54,10 @@ class Survivor
 
   def pre_ration
     @hunger -= 1
+  end
+
+  def scav_mission
+    @scavenging = true
   end
 
   def supplies_consumed base
@@ -250,12 +255,14 @@ end
 def scavenge(base)
   puts "What would you like to scavenge for?"
   input = gets.chomp.downcase
+  target = "exit"
   case input
   when "food"
     target = "food"
   when "water"
     if base.water?
       puts "The base has its own water supply."
+      scavenge(base)
     else
       target = "water"
     end
@@ -266,41 +273,31 @@ def scavenge(base)
   else
     puts "Can't scavenge for '#{input}'."
     puts "If you don't want to scavenge, use 'nevermind'."
-    scavenge
+    scavenge(base)
   end
 
-  puts "Who should go on the hunt for #{target}?"
+  if target != "exit"
+    survivor_choice
 
-  $survivors.each do |name, person|
-    puts "-- #{name.capitalize}"
-  end
+    input = gets.chomp.downcase
 
-  input = gets.chomp.downcase
+    if $survivors.include?(input)
+      puts "Sending #{input.capitalize} to scavenge for #{target}!"
 
-  if $survivors.include?(input)
-    puts "Sending #{input.capitalize} to scavenge for #{target}!"
-  else
-    puts "There are no survivors by that name."
+    else
+      puts "There are no survivors by that name."
+    end
+
   end
 
 end
 
 def survivor_choice
 
-  puts "Which survivor?"
-  holder = []
+  puts "Which survivor would you like to choose?"
 
-  $survivors.each do |x, y|
-    holder.push(x.capitalize)
-  end
-
-  puts "Options: #{holder.join(", ")}"
-  input = gets.chomp.downcase
-
-  if $survivors.include?(input)
-    $survivors[input].status
-  else
-    puts "There are no survivors by that name."
+  $survivors.each do |name, person|
+    puts "-- #{name.capitalize}"
   end
 
 end
@@ -459,6 +456,14 @@ while player.alive? do
     when "check survivor status", "check survivors status", "check survivors' status", "survivors status", "survivors' status", "survivor status"
 
       survivor_choice
+
+      input = gets.chomp.downcase
+
+      if $survivors.include?(input)
+        $survivors[input].status
+      else
+        puts "There are no survivors by that name."
+      end
 
     when "check status", "status"
 
