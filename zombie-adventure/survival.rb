@@ -283,7 +283,7 @@ def scavenge(base)
 
     if $survivors.include?(input)
       puts "Sending #{input.capitalize} to scavenge for #{target}!"
-
+      puts $survivors[input]
     else
       puts "There are no survivors by that name."
     end
