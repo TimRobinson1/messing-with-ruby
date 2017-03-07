@@ -283,7 +283,7 @@ def scavenge(base)
 
     if $survivors.include?(input)
       puts "Sending #{input.capitalize} to scavenge for #{target}!"
-      puts $survivors[input]
+      puts $survivors[input].scav_mission
     else
       puts "There are no survivors by that name."
     end
@@ -482,14 +482,8 @@ while player.alive? do
 
       when "survivors"
 
-        puts "Which survivor?"
-        holder = []
+        survivor_choice
 
-        $survivors.each do |x, y|
-          holder.push(x.capitalize)
-        end
-
-        puts "Options: #{holder.join(", ")}"
         input = gets.chomp.downcase
 
         if $survivors.include?(input)
