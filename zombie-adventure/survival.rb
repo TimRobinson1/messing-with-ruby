@@ -264,7 +264,10 @@ class Info
   end
 
   def scavenge
-    puts "not implemented"
+    puts "The scavenge function will send one survivor out"
+    puts "in search of the specified supply.  Use this to"
+    puts "your advantage to stay on top of your supplies."
+    puts "Currently, they will always return safely."
   end
 
 end
