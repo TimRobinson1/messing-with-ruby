@@ -239,6 +239,8 @@ class Info
     case question
     when "rest"
       rest
+    when "check status", "check"
+      check
     when "build"
       build
     when "scavenge"
@@ -268,6 +270,12 @@ class Info
     puts "in search of the specified supply.  Use this to"
     puts "your advantage to stay on top of your supplies."
     puts "Currently, they will always return safely."
+  end
+
+  def check
+    puts "You can use 'check status' to check on your base,"
+    puts "yourself or your base.  You can also specify what"
+    puts "you want to check.  For example: 'check base status'"
   end
 
 end
