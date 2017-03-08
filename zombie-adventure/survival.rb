@@ -60,6 +60,10 @@ class Survivor
     @scavenging = true
   end
 
+  def away?
+    @scavenging
+  end
+
   def supplies_consumed base
     if base.water? == false
       @thirst -= 1
@@ -283,7 +287,7 @@ def scavenge(base)
 
     if $survivors.include?(input)
       puts "Sending #{input.capitalize} to scavenge for #{target}!"
-      puts $survivors[input].scav_mission
+      $survivors[input].scav_mission
     else
       puts "There are no survivors by that name."
     end
@@ -297,7 +301,9 @@ def survivor_choice
   puts "Which survivor would you like to choose?"
 
   $survivors.each do |name, person|
-    puts "-- #{name.capitalize}"
+    if person.away? == false
+      puts "-- #{name.capitalize}"
+    end
   end
 
 end
