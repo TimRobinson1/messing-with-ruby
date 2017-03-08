@@ -7,6 +7,7 @@ class Survivor
     @hunger = 10
     @thirst = 10
     @scavenging = false
+    @days_out = 0
   end
 
   def name
@@ -62,6 +63,18 @@ class Survivor
 
   def away?
     @scavenging
+  end
+
+  def mission
+    time = rand(2..4)
+    if time > @days_out
+      puts "#{name} has not returned from scavenging yet."
+      @days_out += 1
+    else
+      puts "#{name} has returned from scavenging!"
+      @scavenging = false
+      @days_out = 0
+    end
   end
 
   def supplies_consumed base
@@ -402,6 +415,11 @@ while player.alive? do
 
   puts "*"*30
   puts "A new day dawns.  Day #{day}"
+  $survivors.each do |name, person|
+    if person.away?
+      person.mission
+    end
+  end
   if base.food_supply > 0
     puts "You have #{base.food_supply} portions of daily food."
   else
