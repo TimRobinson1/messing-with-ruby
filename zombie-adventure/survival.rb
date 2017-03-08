@@ -231,6 +231,7 @@ class Info
     puts "have enough for everybody at the start of each day."
     puts "Try 'scavenge', 'build', 'check status' or 'rest'"
     puts "Use help <query> for more information."
+    puts "For example, 'help list' will show you the list of available commands."
 
   end
 
@@ -243,6 +244,8 @@ class Info
       check
     when "build"
       build
+    when "list", "list commands", "commands"
+      list
     when "scavenge"
       scavenge
     else
@@ -278,6 +281,13 @@ class Info
     puts "you want to check.  For example: 'check base status'"
   end
 
+  def list
+    commands = ["help", "look outside", "scavenge", "check status",
+    "rest", "show map"].sort
+    commands.each do |x|
+      puts "-- #{x}"
+    end
+  end
 end
 
 def scavenge(base)
@@ -482,8 +492,10 @@ while player.alive? do
 
     when "help", "help "
 
+      puts "*"*50
       help.main
-
+      puts "*"*50
+      
     when "check base status", "base status"
 
       base.status
