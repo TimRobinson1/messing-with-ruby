@@ -285,12 +285,16 @@ def scavenge(base)
 
     input = gets.chomp.downcase
 
-    if $survivors.include?(input)
+    if $survivors[input].away?
+      puts "That survivor is unavailable."
+    elsif $survivors.include?(input)
       puts "Sending #{input.capitalize} to scavenge for #{target}!"
       $survivors[input].scav_mission
     else
       puts "There are no survivors by that name."
     end
+
+    puts "What would you like to do now?"
 
   end
 
