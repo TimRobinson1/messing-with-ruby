@@ -321,8 +321,7 @@ def scavenge(base, map)
     input = gets.chomp.downcase
 
     if input == "player" || input == "me"
-      map.show
-      puts "Where would you like to explore?"
+      explore(map)
     elsif $survivors[input].away?
       puts "That survivor is unavailable."
     elsif $survivors.include?(input)
@@ -336,6 +335,11 @@ def scavenge(base, map)
 
   end
 
+end
+
+def explore(map)
+  map.show
+  puts "Where would you like to explore?"
 end
 
 def survivor_choice
