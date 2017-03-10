@@ -70,6 +70,7 @@ class Survivor
     if time > @days_out
       puts "#{name} has not returned from scavenging yet."
       @days_out += 1
+      puts "#{@days_out}"
     else
       puts "#{name} has returned from scavenging!"
       @scavenging = false
@@ -290,7 +291,7 @@ class Info
   end
 end
 
-def scavenge(base)
+def scavenge(base, map)
   puts "What would you like to scavenge for?"
   input = gets.chomp.downcase
   target = "exit"
@@ -300,7 +301,7 @@ def scavenge(base)
   when "water"
     if base.water?
       puts "The base has its own water supply."
-      scavenge(base)
+      scavenge(base, map)
     else
       target = "water"
     end
@@ -311,7 +312,7 @@ def scavenge(base)
   else
     puts "Can't scavenge for '#{input}'."
     puts "If you don't want to scavenge, use 'nevermind'."
-    scavenge(base)
+    scavenge(base, map)
   end
 
   if target != "exit"
@@ -319,7 +320,10 @@ def scavenge(base)
 
     input = gets.chomp.downcase
 
-    if $survivors[input].away?
+    if input == "player" || input == "me"
+      map.show
+      puts "Where would you like to explore?"
+    elsif $survivors[input].away?
       puts "That survivor is unavailable."
     elsif $survivors.include?(input)
       puts "Sending #{input.capitalize} to scavenge for #{target}!"
@@ -484,7 +488,7 @@ while player.alive? do
       base.test_food_add
 
     when "scavenge"
-      scavenge(base)
+      scavenge(base, map)
 
     when "explore"
       map.show
