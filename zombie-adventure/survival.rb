@@ -486,6 +486,10 @@ while player.alive? do
     when "scavenge"
       scavenge(base)
 
+    when "explore"
+      map.show
+      puts "Where would you like to explore?"
+
     when "show map", "check map", "map", "open map", "display map"
 
       map.show
@@ -495,7 +499,7 @@ while player.alive? do
       puts "*"*50
       help.main
       puts "*"*50
-      
+
     when "check base status", "base status"
 
       base.status
