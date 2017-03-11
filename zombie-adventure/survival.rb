@@ -209,7 +209,7 @@ class Base
     food_ratio = (@food / @people)
     puts "You have #{@food} portions of food - enough for"
     puts "at least #{food_ratio} days worth of food for you"
-    puts "and your #{@people} survivors."
+    puts "and your #{@people - 1} survivors."
     puts "You have #{@building_supplies} units of building supplies."
     if @water_supply
       puts "Your base is connected to a water supply."
@@ -486,7 +486,10 @@ while player.alive? do
     end
   end
   if base.food_supply > 0
-    puts "You have #{base.food_supply} portions of daily food."
+    puts "You have #{base.food_supply} portions of food."
+    if day == 1
+      puts "Each portion will feed one survivor for one day."
+    end
   else
     puts "There's no food left in storage."
   end
