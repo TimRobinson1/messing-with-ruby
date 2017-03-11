@@ -124,7 +124,7 @@ end
 class Base
   def initialize
     @safety = 100
-    @food = 100
+    @food = 10
     @water = 10
     @water_supply = true
     @peoeple = 3
@@ -405,8 +405,12 @@ while player.alive? do
       puts "Food portions: #{base.food_supply}     Survivors: #{$survivors.count}"
       puts "Who should be the first to eat?"
       $survivors.each do |name, person|
-        person.pre_ration
-        puts "-- #{name.capitalize}"
+        if person.away?
+          puts "-- #{name.capitalize} (unavailable - out scavenging)"
+        else
+          person.pre_ration
+          puts "-- #{name.capitalize}"
+        end
       end
       while base.food_supply > 0 do
         input = gets.chomp.downcase
@@ -423,9 +427,11 @@ while player.alive? do
         end
       end
     else
-      player.supplies_consumed(base)
-      surv1.supplies_consumed(base)
-      surv2.supplies_consumed(base)
+      $survivors.each do |name, person|
+        if person.away? == false
+          person.supplies_consumed(base)
+        end
+      end
     end
 
     $survivors.each do |name, person|
