@@ -135,10 +135,10 @@ end
 class Base
   def initialize
     @safety = 100
-    @food = 100
+    @food = 10
     @water = 10
     @water_supply = true
-    @peoeple = 3
+    @people = 3
     @overcrowded = false
     @building_supplies = 0
     @zombie_activity = "small"
@@ -206,7 +206,7 @@ class Base
       "The base is extremely vulnerable."
     end
 
-    food_ratio = @food / @people
+    food_ratio = (@food / @people)
     puts "You have #{@food} portions of food - enough for"
     puts "at least #{food_ratio} days worth of food for you"
     puts "and your #{@people} survivors."
