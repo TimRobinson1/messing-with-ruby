@@ -306,6 +306,12 @@ class Info
     puts "you want to check.  For example: 'check base status'"
   end
 
+  def explore
+    puts "This is when you as the player go out scavenging."
+    puts "You'll be presented with your map and the option"
+    puts "to choose where you want to explore."
+  end
+
   def list
     commands = ["help", "look outside", "scavenge", "check status",
     "rest", "show map"].sort
