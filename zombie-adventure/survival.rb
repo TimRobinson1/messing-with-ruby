@@ -72,7 +72,7 @@ class Survivor
       puts "#{name} has not returned from scavenging yet."
       @days_out += 1
     else
-      units_found = rand(1..10)
+      units_found = rand(5..30)
       puts "#{name} has returned from scavenging with #{units_found} #{@supplies}!"
       @scavenging = false
       @days_out = 0
