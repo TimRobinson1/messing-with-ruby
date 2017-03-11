@@ -68,9 +68,16 @@ class Survivor
 
   def mission(base)
     time = rand(2..4)
+    death = rand(1..100)
     if time > @days_out
       puts "#{name} has not returned from scavenging yet."
       @days_out += 1
+    elsif death < 20
+      puts "You have a bad feeling that #{name} won't make it back."
+      @health = -100
+      alive?
+      @scavenging = false
+      @days_out = 0
     else
       units_found = rand(5..30)
       puts "#{name} has returned from scavenging with #{units_found} #{@supplies}!"
@@ -107,6 +114,9 @@ class Survivor
       false
     elsif @thirst == 0
       @death = "thirst"
+      false
+    elsif @health == -100
+      @death = "something whilst scavenging"
       false
     elsif @health <= 0
       @death = "serious injuries"
