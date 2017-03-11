@@ -71,7 +71,6 @@ class Survivor
     if time > @days_out
       puts "#{name} has not returned from scavenging yet."
       @days_out += 1
-      puts "#{@days_out}"
     else
       units_found = rand(1..10)
       puts "#{name} has returned from scavenging with #{units_found} #{@supplies}!"
