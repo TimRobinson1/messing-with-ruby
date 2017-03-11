@@ -57,8 +57,9 @@ class Survivor
     @hunger -= 1
   end
 
-  def scav_mission
+  def scav_mission(target)
     @scavenging = true
+    @supplies = target
   end
 
   def away?
@@ -72,7 +73,7 @@ class Survivor
       @days_out += 1
       puts "#{@days_out}"
     else
-      puts "#{name} has returned from scavenging!"
+      puts "#{name} has returned from scavenging with 10 #{@supplies}!"
       @scavenging = false
       @days_out = 0
     end
@@ -123,7 +124,7 @@ end
 class Base
   def initialize
     @safety = 100
-    @food = 11
+    @food = 100
     @water = 10
     @water_supply = true
     @peoeple = 3
@@ -326,7 +327,7 @@ def scavenge(base, map)
       puts "That survivor is unavailable."
     elsif $survivors.include?(input)
       puts "Sending #{input.capitalize} to scavenge for #{target}!"
-      $survivors[input].scav_mission
+      $survivors[input].scav_mission(target)
     else
       puts "There are no survivors by that name."
     end
