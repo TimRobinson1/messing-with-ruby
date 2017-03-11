@@ -66,16 +66,18 @@ class Survivor
     @scavenging
   end
 
-  def mission
+  def mission(base)
     time = rand(2..4)
     if time > @days_out
       puts "#{name} has not returned from scavenging yet."
       @days_out += 1
       puts "#{@days_out}"
     else
-      puts "#{name} has returned from scavenging with 10 #{@supplies}!"
+      units_found = rand(1..10)
+      puts "#{name} has returned from scavenging with #{units_found} #{@supplies}!"
       @scavenging = false
       @days_out = 0
+      base.scav_success(@supplies, units_found)
     end
   end
 
@@ -124,7 +126,7 @@ end
 class Base
   def initialize
     @safety = 100
-    @food = 10
+    @food = 100
     @water = 10
     @water_supply = true
     @peoeple = 3
@@ -170,6 +172,18 @@ class Base
   def test_food_add
     @food = 10
   end
+
+  def scav_success(supplies, num)
+    case supplies
+    when "food"
+      @food += num
+    when "water"
+      @water += num
+    when "building supplies"
+      @building_supplies += num
+    end
+  end
+
 
   def status
     puts case @safety
@@ -453,7 +467,7 @@ while player.alive? do
   puts "A new day dawns.  Day #{day}"
   $survivors.each do |name, person|
     if person.away?
-      person.mission
+      person.mission(base)
     end
   end
   if base.food_supply > 0
