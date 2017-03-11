@@ -521,7 +521,6 @@ while player.alive? do
 
     when "rest"
 
-      puts 'rest'
       break
 
     when "check window", "look out window", "window", "look at zombies", "look outside", "check outside"
@@ -607,10 +606,6 @@ while player.alive? do
   end
 
   day += 1
-
-  player.test_show
-  surv1.test_show
-  surv2.test_show
 
   base.zombies_daily_change
 
