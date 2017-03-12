@@ -135,7 +135,7 @@ end
 class Base
   def initialize
     @safety = 100
-    @food = 10
+    @food = 11
     @water = 10
     @water_supply = true
     @people = 3
@@ -228,7 +228,7 @@ class Hash
         count += 1
       end
     end
-    puts count
+    count
   end
 end
 
@@ -438,9 +438,11 @@ day = 1
 
 while player.alive? do
 
+  puts base.food_supply
+
   if day > 1
 
-    if ($survivors.count_available >= base.food_supply) && (base.food_supply != 0)
+    if ($survivors.count_available > base.food_supply) && (base.food_supply != 0)
       puts "There's not enough food in storage for everyone to eat"
       puts "this morning. As leader, it is your job to ration it out."
       puts "Food portions: #{base.food_supply}     Survivors: #{$survivors.count_available}"
@@ -455,7 +457,9 @@ while player.alive? do
       end
       while base.food_supply > 0 do
         input = gets.chomp.downcase
-        if $survivors.include?(input)
+        if $survivors[input].away?
+          puts "#{input.capitalize} is out scavenging!"
+        elsif $survivors.include?(input)
           $survivors[input].ration
           base.eat
           puts "#{input.capitalize} has eaten."
