@@ -220,6 +220,18 @@ class Base
 
 end
 
+class Hash
+  def count_available
+    count = 0
+    self.each do |x, y|
+      if y.away? == false
+        count += 1
+      end
+    end
+    puts count
+  end
+end
+
 class Map
   def initialize
     @map = "\n    .....[1][2]..[3]
@@ -428,10 +440,10 @@ while player.alive? do
 
   if day > 1
 
-    if ($survivors.count >= base.food_supply) && (base.food_supply != 0)
+    if ($survivors.count_available >= base.food_supply) && (base.food_supply != 0)
       puts "There's not enough food in storage for everyone to eat"
       puts "this morning. As leader, it is your job to ration it out."
-      puts "Food portions: #{base.food_supply}     Survivors: #{$survivors.count}"
+      puts "Food portions: #{base.food_supply}     Survivors: #{$survivors.count_available}"
       puts "Who should be the first to eat?"
       $survivors.each do |name, person|
         if person.away?
