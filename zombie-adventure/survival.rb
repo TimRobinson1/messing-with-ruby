@@ -193,6 +193,16 @@ class Base
     end
   end
 
+  def safe?
+    if @safety > 0
+      puts "Zombies broke through to your base!"
+      puts "Everyone was killed in the night."
+      puts "Game over, hero."
+      exit(0)
+    end
+  end
+
+
 
   def status
     puts case @safety
@@ -202,7 +212,9 @@ class Base
       "The base is fairly secure."
     when (30..49)
       "The base is not very secure."
-    when (1..30)
+    when (11..29)
+      "The base is vulnerable."
+    when (1..10)
       "The base is extremely vulnerable."
     end
 
