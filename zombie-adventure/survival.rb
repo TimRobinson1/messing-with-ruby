@@ -134,7 +134,7 @@ end
 
 class Base
   def initialize
-    @safety = 0
+    @safety = 100
     @food = 11
     @water = 10
     @water_supply = true
@@ -150,7 +150,9 @@ class Base
 
   def zombies_daily_change
     levels = ["eerily quiet", "very small", "quite small", "small", "pretty big", "enormous", "completely filling the streets"]
-    @zombie_activity = levels.sample
+    @danger = rand(0..(levels.length - 1))
+    @zombie_activity = levels[@danger]
+    puts @danger
   end
 
   def water?
@@ -194,7 +196,7 @@ class Base
   end
 
   def safe?
-    if @safety >= 0
+    if @safety <= 0
       puts "Zombies broke through to your base!"
       puts "Everyone was killed in the night."
       puts "Game over, hero."
