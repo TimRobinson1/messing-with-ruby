@@ -152,7 +152,6 @@ class Base
     levels = ["eerily quiet", "very small", "quite small", "small", "pretty big", "enormous", "completely filling the streets"]
     @danger = rand(0..(levels.length - 1))
     @zombie_activity = levels[@danger]
-    puts @danger
   end
 
   def water?
@@ -469,7 +468,7 @@ while player.alive? do
       end
       while base.food_supply > 0 do
         input = gets.chomp.downcase
-        if $survivors[input].away?
+        if $survivors.include?(input) && $survivors[input].away?
           puts "#{input.capitalize} is out scavenging!"
         elsif $survivors.include?(input)
           $survivors[input].ration
