@@ -68,11 +68,11 @@ class Survivor
 
   def mission(base)
     time = rand(2..4)
-    death = rand(1..100)
+    death = rand(1..10)
     if time > @days_out
       puts "#{name} has not returned from scavenging yet."
       @days_out += 1
-    elsif death < 20
+    elsif death < (base.danger_level)
       puts "You have a bad feeling that #{name} won't make it back."
       @health = -100
       alive?
@@ -142,6 +142,7 @@ class Base
     @overcrowded = false
     @building_supplies = 0
     @zombie_activity = "small"
+    @danger = 3
   end
 
   def window_check
@@ -152,6 +153,10 @@ class Base
     levels = ["eerily quiet", "very small", "quite small", "small", "pretty big", "enormous", "completely filling the streets"]
     @danger = rand(0..(levels.length - 1))
     @zombie_activity = levels[@danger]
+  end
+
+  def danger_level
+    @danger
   end
 
   def water?
