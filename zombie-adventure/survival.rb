@@ -156,11 +156,16 @@ class Base
   end
 
   def danger_level
-    @danger
+    @safety
   end
 
   def water?
     @water_supply
+  end
+
+  def daily_damage
+    damage = @danger*rand(1..2)
+    @safety -= damage
   end
 
   def food?
@@ -642,5 +647,9 @@ while player.alive? do
   base.zombies_daily_change
 
   base.safe?
+
+  base.daily_damage
+
+  puts base.danger_level
 
 end
