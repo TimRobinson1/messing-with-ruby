@@ -347,7 +347,7 @@ class Info
 
   def list
     commands = ["help", "look outside", "scavenge", "check status",
-    "rest", "show map"].sort
+    "rest", "show map", "explore"].sort
     commands.each do |x|
       puts "-- #{x}"
     end
@@ -458,8 +458,6 @@ end
 day = 1
 
 while player.alive? do
-
-  puts base.food_supply
 
   if day > 1
 
@@ -643,13 +641,8 @@ while player.alive? do
   end
 
   day += 1
-
   base.zombies_daily_change
-
   base.safe?
-
   base.daily_damage
-
-  puts base.danger_level
 
 end
