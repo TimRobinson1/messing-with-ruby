@@ -68,7 +68,7 @@ class Survivor
 
   def mission(base)
     time = rand(2..4)
-    death = rand(1..10)
+    death = rand(1..20)
     if time > @days_out
       puts "#{name} has not returned from scavenging yet."
       @days_out += 1
@@ -502,6 +502,7 @@ while player.alive? do
 
       if person.alive? == false
         puts "#{name.capitalize} has died of #{person.death}!"
+        $survivors.delete(name)
       end
 
     end
