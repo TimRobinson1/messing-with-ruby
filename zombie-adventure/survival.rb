@@ -342,7 +342,9 @@ class Info
   end
 
   def build
-    puts "not implemented"
+    puts "Using the build function currently allows you to repair"
+    puts "the base against zombie damage.  Zombie damage occurs daily"
+    puts "depending on the level of activity outside."
   end
 
   def scavenge
@@ -366,7 +368,7 @@ class Info
 
   def list
     commands = ["help", "look outside", "scavenge", "check status",
-    "rest", "show map", "explore"].sort
+    "rest", "show map", "explore", "build"].sort
     commands.each do |x|
       puts "-- #{x}"
     end
