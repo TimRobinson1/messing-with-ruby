@@ -75,7 +75,7 @@ class Survivor
     if @time > @days_out
       puts "#{name} has not returned from scavenging yet."
       @days_out += 1
-    elsif @survival_odds < (base.danger_level)
+    elsif @survival_odds < (base.danger_level * 2)
       puts "You have a bad feeling that #{name} won't make it back."
       @health = -100
       alive?
@@ -411,7 +411,7 @@ def scavenge(base, map)
       puts "Sending #{input.capitalize} to scavenge for #{target}!"
       $survivors[input].scav_mission(target)
       time = rand(2..4)
-      death = rand(1..18)
+      death = rand(1..100)
       $survivors[input].survival_odds(time, death)
     else
       puts "There are no survivors by that name."
