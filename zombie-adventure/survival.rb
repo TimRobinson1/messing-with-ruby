@@ -57,6 +57,11 @@ class Survivor
     @hunger -= 1
   end
 
+  def survival_odds(time, chance)
+    @time = time
+    @survival_odds = chance
+  end
+
   def scav_mission(target)
     @scavenging = true
     @supplies = target
@@ -67,12 +72,10 @@ class Survivor
   end
 
   def mission(base)
-    time = rand(2..4)
-    death = rand(1..20)
-    if time > @days_out
+    if @time > @days_out
       puts "#{name} has not returned from scavenging yet."
       @days_out += 1
-    elsif death < (base.danger_level)
+    elsif @survival_odds < (base.danger_level)
       puts "You have a bad feeling that #{name} won't make it back."
       @health = -100
       alive?
@@ -156,7 +159,7 @@ class Base
   end
 
   def danger_level
-    @safety
+    @danger
   end
 
   def water?
@@ -354,6 +357,7 @@ class Info
   end
 end
 
+
 def scavenge(base, map)
   puts "What would you like to scavenge for?"
   input = gets.chomp.downcase
@@ -390,6 +394,9 @@ def scavenge(base, map)
     elsif $survivors.include?(input)
       puts "Sending #{input.capitalize} to scavenge for #{target}!"
       $survivors[input].scav_mission(target)
+      time = rand(2..4)
+      death = rand(1..18)
+      $survivors[input].survival_odds(time, death)
     else
       puts "There are no survivors by that name."
     end
