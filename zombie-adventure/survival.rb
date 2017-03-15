@@ -603,7 +603,7 @@ while player.alive? do
 
       input = gets.chomp.downcase
 
-      if $survivors[input].away?
+      if $survivors.include?(input) && $survivors[input].away?
         puts "#{input.capitalize} is out scavenging!"
       elsif $survivors.include?(input)
         $survivors[input].status
