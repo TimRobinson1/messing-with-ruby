@@ -173,7 +173,9 @@ class Base
 
   def repair
     puts "Attempting to repair base..."
-    if @building_supplies > 0
+    if @safety = 100
+      puts "Base is already fully repaired."
+    elsif @building_supplies > 0
       num = [0.5, 1, 1.5]
       @safety += @building_supplies * num.sample
       puts "Base being repaired!"
