@@ -171,6 +171,20 @@ class Base
     @safety -= damage
   end
 
+  def repair
+    puts "Attempting to repair base..."
+    if @building_supplies > 0
+      num = [0.5, 1, 1.5]
+      @safety += @building_supplies * num.sample
+      puts "Base being repaired!"
+      if @safety > 100
+        @safety = 100
+      end
+    else
+      puts "You have no building supplies to work with!"
+    end
+  end
+
   def food?
     if @food <= 0
       false
@@ -571,6 +585,9 @@ while player.alive? do
 
     when "add food"
       base.test_food_add
+
+    when "build", "repair base", "barricade"
+      base.repair
 
     when "scavenge"
       scavenge(base, map)
