@@ -313,7 +313,16 @@ class Explore
       "farmhouse", "hospital", "grocery store", "police station", "office"].sample
     @description = ["dilapidated", "rundown", "badly damaged", "slightly flooded",
     "crumbling", "rickety and dark", "dark, rotting", "mostly intact", "seemingly abandoned"].sample
-    @loot = ["food", "building supplies"].sample
+    case @location
+    when "pharmacy", "hospital"
+      @loot = "medicine"
+    when "hardware store", "warehouse"
+      @loot = "building supplies"
+    when "grocery store"
+      @loot = "food"
+    else
+      @loot = ["food", "building supplies"].sample
+    end
     @loot_amount = rand(6..23)
     @enemy = ["zombies milling about", "strange noises and whispers",
       "hostile survivors setting up a base"].sample
