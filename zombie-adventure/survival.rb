@@ -360,7 +360,7 @@ class Explore
     when "try to negotiate", "negotiate"
       # negotiate
     when "investigate noises"
-      # investigate
+      investigate
     when "fight zombies"
       # zombie combat
     else
@@ -369,6 +369,96 @@ class Explore
     end
   end
 
+  def investigate
+    chance = rand(1..100)
+    if chance == 1
+      puts "You follow the noises through the dark corridors."
+      puts "Eventually you track them to a small, cramped room."
+      puts "Without warning, the noises turn to loud groans and a"
+      puts "zombie sinks his teeth into your jugular from behind."
+      puts "You sink to your knees, clutching your neck."
+      puts "Dead."
+      exit(0)
+    elsif chance < 50
+      puts "You wander around aimlessly, unable to locate the source"
+      puts "of the strange noises. After several minutes of fruitless"
+      puts "searching, you give up and start scavenging supplies."
+      success
+    elsif chance < 70
+      puts "You manage to track the noises to a shoddily barricaded room"
+      puts "where a survivor is pacing back and forth. They're unsure of"
+      puts "you at first, but you persuade them that you're not a threat."
+      puts "They ask to join you, in exchange for the building's supplies."
+      puts "Yes, or no?"
+      if (input = gets.chomp.downcase) == "yes"
+        puts "You nod and they join you in scavenging the building."
+        name = "Steve"
+        surv3 = Survivor.new name
+        $survivors[name.downcase] = surv3
+        success
+      elsif input == "no"
+        puts "You decline the survivor's offer and they're immediately hostile."
+        puts "They threaten you to leave the building."
+        puts "-- leave"
+        puts "-- fight"
+        if (input = gets.chomp) == "leave"
+          puts "You leave quietly, and return to base empty handed."
+        elsif input == "fight"
+          odds = rand(1..10)
+          if odds == 1
+            puts "The survivor senses your aggression, overpowers you, and snaps your neck."
+            puts "Dead."
+            exit(0)
+          else
+            puts "You pounce on them before they can fight back, killing them quickly."
+            puts "You set out to scavenge the rest of the building."
+            success
+          end
+        else
+          puts "Unsure as to the best thing to do, you leave them alone."
+          puts "You may not have gained any supplies, but at least no human blood was shed."
+        end
+      else
+        puts "The survivor is startled by a noise in an adjacent room and runs away."
+        puts "Seconds later, you hear many people shouting and gunshots."
+        puts "Fearing for your life, you flee from the scene empty handed."
+      end
+    elsif chance < 80
+      puts "You follow the whispers to a glowing red room with some kind of"
+      puts "bizarre shrine. You're certain that the whispering is comiing from"
+      puts "the room but there's no one in there."
+      puts "Determined to be brave, you shut the door to the room with a shiver"
+      puts "running down your spine, and begin searching the rest of the building."
+      success
+    elsif chance < 85
+      puts "You follow the strange noises until it nearly leads you into a room"
+      puts "packed with shambling zombies. You pause, and manage to close the door"
+      puts "before they notice you. You proceed to loot the rest of the building."
+      success
+    elsif chance <= 97
+      puts "The noise seems to be coming from a hissing radio. It crackles and hisses"
+      puts "with bursts of static, before suddenly exclaiming 'The end of times are here,"
+      puts "and we all must accept our fates. There is no escape. This is the story of how"
+      puts "you died.' You stare at the radio for several seconds before you realise that"
+      puts "the battery has been ripped out of the back."
+      puts "Utterly confused, you hasten to explore the building and get out quickly."
+      success
+    else
+      puts "You follow the noises into a small room, where there's a scruffy"
+      puts "looking dog! He pants happily when he sees you, as if he can tell"
+      puts "that you're not infected. It looks like he's going to follow you,"
+      puts "like it or not!"
+      print "Name the dog: "
+      input = gets.chomp
+      dog = Survivor.new input
+      $survivors[input.downcase] = dog
+      success
+    end
+  end
+
+  def success
+    puts "You return to your base with #{@loot_amount} #{@loot}!"
+  end
 end
 
 class Info
