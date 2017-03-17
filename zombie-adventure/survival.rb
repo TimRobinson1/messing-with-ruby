@@ -159,6 +159,7 @@ class Base
     @building_supplies = 0
     @zombie_activity = "small"
     @danger = 3
+    @medicine = 0
   end
 
   def window_check
@@ -216,15 +217,6 @@ class Base
     @food -= 1
   end
 
-  def test_show
-    puts "Food: #{@food}"
-    puts "Water: #{@water}"
-  end
-
-  def test_food_add
-    @food = 10
-  end
-
   def scav_success(supplies, num)
     case supplies
     when "food"
@@ -232,7 +224,7 @@ class Base
     when "water"
       @water += num
     when "medicine"
-      # medicine
+      @medicine += num
     when "building supplies"
       @building_supplies += num
     end
@@ -265,6 +257,7 @@ class Base
     puts "You have #{@food} portions of food - enough for"
     puts "at least #{food_ratio} days worth of food for you"
     puts "and your #{@people - 1} survivors."
+    puts "You have #{@medicine} doses of antibiotics."
     puts "You have #{@building_supplies} units of building supplies."
     if @water_supply
       puts "Your base is connected to a water supply."
@@ -690,6 +683,8 @@ def scavenge(base, map)
     end
   when "building supplies", "building materials"
     target = "building supplies"
+  when "medicine"
+    target = "medicine"
   when "nevermind", "nothing"
     puts "We'll scavenge later."
   else
