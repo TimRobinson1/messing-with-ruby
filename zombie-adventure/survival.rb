@@ -218,6 +218,8 @@ class Base
       @food += num
     when "water"
       @water += num
+    when "medicine"
+      # medicine
     when "building supplies"
       @building_supplies += num
     end
@@ -579,7 +581,8 @@ class Explore
   end
 
   def success
-    puts "You return to your base with #{@loot_amount} #{@loot}!"
+    puts "You manage to return to your base with #{@loot_amount} #{@loot}!"
+    $spoils = [@loot_amount, @loot]
   end
 end
 
@@ -882,7 +885,11 @@ while player.alive? do
 
     when "explore"
       if explore(map)
+        $spoils = []
         (Explore.new).encounter
+        if $spoils != []
+          base.scav_success($spoils[1], $spoils[0])
+        end
       end
 
     when "show map", "check map", "map", "open map", "display map"
