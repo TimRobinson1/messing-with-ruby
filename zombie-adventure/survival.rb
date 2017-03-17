@@ -8,6 +8,7 @@ class Survivor
     @thirst = 10
     @scavenging = false
     @days_out = 0
+    @scav_ready = true
   end
 
   def name
@@ -47,6 +48,14 @@ class Survivor
     else
       puts "and is not thirsty."
     end
+  end
+
+  def ready?
+    @scav_ready
+  end
+
+  def tired
+    @scav_ready = false
   end
 
   def ration
@@ -884,12 +893,17 @@ while player.alive? do
       scavenge(base, map)
 
     when "explore"
-      if explore(map)
-        $spoils = []
-        (Explore.new).encounter
-        if $spoils != []
-          base.scav_success($spoils[1], $spoils[0])
+      if player.ready?
+        if explore(map)
+          $spoils = []
+          (Explore.new).encounter
+          player.tired
+          if $spoils != []
+            base.scav_success($spoils[1], $spoils[0])
+          end
         end
+      else
+        puts "You've already been scavenging today!"
       end
 
     when "show map", "check map", "map", "open map", "display map"
