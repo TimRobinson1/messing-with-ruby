@@ -340,12 +340,32 @@ class Explore
     puts "-- leave"
     puts "-- use stealth"
     if @enemy == "hostile survivors setting up a base"
-      puts "-- fight"
+      puts "-- fight survivors"
       puts "-- try to negotiate"
     elsif @enemy == "strange noises and whispers"
       puts "-- investigate noises"
     else
       puts "-- fight zombies"
+    end
+
+    input = gets.chomp.downcase
+    case input
+    when "leave", "flee"
+      puts "You slip out quietly and head back to base."
+      puts "You make it back to base empty handed. Now what?"
+    when "use stealth", "stealth", "sneak"
+      # Sneak
+    when "fight survivors"
+      # Combat
+    when "try to negotiate", "negotiate"
+      # negotiate
+    when "investigate noises"
+      # investigate
+    when "fight zombies"
+      # zombie combat
+    else
+      puts "Not sure what '#{input}' means, try typing one of the suggestions."
+      options
     end
   end
 
