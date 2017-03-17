@@ -354,7 +354,7 @@ class Explore
       puts "You slip out quietly and head back to base."
       puts "You make it back to base empty handed. Now what?"
     when "use stealth", "stealth", "sneak"
-      # Sneak
+      sneak
     when "fight survivors"
       # Combat
     when "try to negotiate", "negotiate"
@@ -366,6 +366,48 @@ class Explore
     else
       puts "Not sure what '#{input}' means, try typing one of the suggestions."
       options
+    end
+  end
+
+  def sneak
+    if @enemy == "strange noises and whispers"
+      puts "You wander around the building cautiously, still hearing"
+      puts "the strange noises. After several minutes of slow, quiet"
+      puts "searching, you decide you've got enough and leave, the mystery"
+      puts "of the strange noises forgotten behind you."
+      success
+    elsif @enemy == "zombies milling about"
+      puts "Zombies are stupid and slow. With that in mind, you hope that they"
+      puts "won't notice you as you move around gathering supplies."
+      chance = rand(1..3)
+      case chance
+      when 1
+        puts "You're correct in your thinking and manage to scavenge all that"
+        puts "you can find without any of the zombies noticing you."
+        success
+      when 2
+        puts "The zombies are quite numerous, and soon catch on that you're"
+        puts "skulking around. They begin to follow you and start blocking your"
+        puts "path. You're forced to leave with much less than was available, before"
+        puts "too many zombies join the hunt."
+        @loot_amount = @loot_amount / 2
+      else
+        puts "You were completely wrong. These zombies were all too aware of your"
+        puts "presence and didn't hesitate to start forming a horde to hunt you down."
+        puts "With the infected numbers swelling hugely, you're forced to leave with nothing."
+      end
+    else
+      chance = rand(1..4)
+      if chance == 4
+        puts "You manage to completely avoid contact with the hostile survivors,"
+        puts "and you're extremely chuffed with how much you've been able to steal"
+        puts "right under their noses. Still undetected, you make your escape."
+        success
+      else
+        puts "There are too many survivors wandering around, and before you can"
+        puts "find anything useful, you're spotted. As the deranged survivor screams"
+        puts "and points his gun at you, you're forced to flee empty-handed."
+      end
     end
   end
 
