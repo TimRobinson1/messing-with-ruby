@@ -54,6 +54,10 @@ class Survivor
     @scav_ready
   end
 
+  def revitalize
+    @scav_ready = true
+  end
+
   def tired
     @scav_ready = false
   end
@@ -700,7 +704,9 @@ def scavenge(base, map)
     input = gets.chomp.downcase
 
     if input == "player" || input == "me"
-      explore(map)
+      puts "Use the 'explore' function if you wish to scavenge by yourself!"
+    elsif input == "dog"
+      puts "You can't send the dog to scavenge by themselves!"
     elsif $survivors[input].away?
       puts "That survivor is unavailable."
     elsif $survivors.include?(input)
@@ -979,5 +985,6 @@ while player.alive? do
   base.zombies_daily_change
   base.safe?
   base.daily_damage
+  player.revitalize
 
 end
