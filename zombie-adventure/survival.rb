@@ -356,18 +356,47 @@ class Explore
     when "use stealth", "stealth", "sneak"
       sneak
     when "fight survivors"
-      # Combat
+      human_combat
     when "try to negotiate", "negotiate"
       # negotiate
     when "investigate noises"
       investigate
     when "fight zombies"
-      # zombie combat
+      zombie_combat
     else
       puts "Not sure what '#{input}' means, try typing one of the suggestions."
       options
     end
   end
+
+  def zombie_combat
+    # Will add possibility of zombie bites and infections at a later date!
+    puts "You decide to take on the zombies inside the #{@location}."
+    chance = rand(1..10)
+    if chance <= 6
+      puts "Luckily, they seem pretty dazed and thinly spread. You make"
+      puts "short work of them, leaving the #{@location} free for you to"
+      puts "scavenge safely."
+      success
+    elsif chance <= 9
+      puts "Unfortunately, the zombies here seem to be recently infected,"
+      puts "so they're a little sharper than usual. As you hack and slash"
+      puts "your way through the hordes, more and more keep coming, and"
+      puts "you eventually have to cut your losses and run empty-handed."
+    else
+      puts "Unfortunately, the zombies here seem to be recently infected,"
+      puts "and they're relentless. Barely escaping with your life as the"
+      puts "hordes begin to overwhelm you, you manage to escape with just"
+      puts "a few large gashes down your forearm. And... are those"
+      puts "teeth marks...?"
+      puts "*** Infection not yet implemented ***"
+    end
+  end
+
+  def human_combat
+    
+  end
+
 
   def sneak
     if @enemy == "strange noises and whispers"
