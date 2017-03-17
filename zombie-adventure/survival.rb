@@ -284,6 +284,7 @@ class Map
     ................
     ......[8]..[9]..\n "
     @initial_map = @map
+    @visitable = ("1".."9").to_a
   end
 
   def show
@@ -294,7 +295,14 @@ you've searched are marked with an 'X'"
   end
 
   def visit choice
-    @map.gsub! choice.to_s, "X"
+    if @visitable.include?(choice)
+      @map.gsub! choice.to_s, "X"
+      @visitable -= [choice]
+      true
+    else
+      puts "That's not an available location."
+      false
+    end
   end
 
 end
@@ -615,8 +623,9 @@ while player.alive? do
       scavenge(base, map)
 
     when "explore"
-      explore(map)
-      Explore.new
+      if explore(map)
+        Explore.new
+      end
 
     when "show map", "check map", "map", "open map", "display map"
 
