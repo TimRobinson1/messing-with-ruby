@@ -315,7 +315,11 @@ class Explore
     "crumbling", "rickety and dark", "dark, rotting", "mostly intact", "seemingly abandoned"].sample
     @loot = ["food", "building supplies"].sample
     @loot_amount = rand(6..23)
-    @enemy = ["zombies milling about", "strange noises and whispers", "hostile survivors setting up a base"].sample
+    @enemy = ["zombies milling about", "strange noises and whispers",
+      "hostile survivors setting up a base"].sample
+  end
+
+  def encounter
     puts "You approach the point of interest on the map, to find a"
     puts "#{@description} #{@location}. Looking around, you reckon you can salvage"
     puts "at least #{@loot_amount} #{@loot}, but there are #{@enemy}"
@@ -624,7 +628,7 @@ while player.alive? do
 
     when "explore"
       if explore(map)
-        Explore.new
+        (Explore.new).encounter
       end
 
     when "show map", "check map", "map", "open map", "display map"
