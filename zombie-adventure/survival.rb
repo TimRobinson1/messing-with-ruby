@@ -394,7 +394,43 @@ class Explore
   end
 
   def human_combat
-    
+    puts "You decide that these survivors aren't going to co-operate."
+    chance = (1..5)
+    case chance
+    when 1
+      puts "Although they've taken over the #{@location}, you reckon you can"
+      puts "take them on. You snatch an enormous hammer from the ground and"
+      puts "begin working your way through the building. You smash skull"
+      puts "after skull, after skull. With surprising ease, you clear out the"
+      puts "entire #{@location}. It's only after you've cracked the final survivor's"
+      puts "skull, with brain matter over your top, that you consider that they may"
+      puts "not have been hostile after all. You shake the thought from your head,"
+      puts "and drop the bloodied hammer by the fresh corpse. You start scavenging."
+      success
+    when 2
+      puts "Although they've taken over the #{@location}, you reckon you can"
+      puts "take them on. You snatch an enormous hammer from the ground and"
+      puts "begin fighting your way through the building. Dodging bullets and"
+      puts "angrily thrusted knives, you manage to clear the #{@location} of"
+      puts "life. Satisfied that they're all gone, you begin to scavenge."
+      success
+    when 3
+      puts "They're swarming all over the #{@location}. You do your best to kick,"
+      puts "punch, scrape, slash and shoot your way through, but to no avail."
+      puts "With too many enemies to face, you're forced to flee."
+    when 4
+      puts "As soon as you decide this, you're proved correct when a survivor bellows"
+      puts "and begins pouring down bullets at you. You dive behind cover, just barely"
+      puts "escaping the stream of gun shots. At your first opportunity, you dash for"
+      puts "the exit. No way you can deal with that level of firepower."
+    else
+      puts "As soon as you decide this, you're proved correct when a survivor bellows"
+      puts "and begins pouring down bullets at you. You dive behind cover, but you're"
+      puts "clipped straight through your right leg by a stray bullet. You pass out"
+      puts "from a mix of pain and fear. Who knows what happened to you, because you"
+      puts "never woke up after that."
+      puts "Dead! Game over."
+    end
   end
 
 
