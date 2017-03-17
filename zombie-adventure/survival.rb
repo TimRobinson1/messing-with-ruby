@@ -30,7 +30,7 @@ class Survivor
     end
 
     if @hunger < 2
-      print "is dying of hunger, "
+      print "is " + "dying of hunger, ".bd_news
     elsif @hunger < 4
       print "is starving, "
     elsif @hunger < 8
@@ -44,7 +44,7 @@ class Survivor
     if @thirst < 5
       puts "and is pretty thirsty."
     elsif @thirst < 3
-      puts "and is dying of thirst."
+      puts "and is " + "dying of thirst!".bd_news
     else
       puts "and is not thirsty."
     end
@@ -89,14 +89,14 @@ class Survivor
       puts "#{name} has not returned from scavenging yet."
       @days_out += 1
     elsif @survival_odds < (base.danger_level * 2)
-      puts "You have a bad feeling that #{name} won't make it back."
+      puts "You have a bad feeling that #{name} won't make it back.".bd_news
       @health = -100
       alive?
       @scavenging = false
       @days_out = 0
     else
       units_found = rand(5..30)
-      puts "#{name} has returned from scavenging with #{units_found} #{@supplies}!"
+      puts "#{name} has returned from scavenging with #{units_found} #{@supplies}!".gd_news
       @scavenging = false
       @days_out = 0
       base.scav_success(@supplies, units_found)
@@ -234,7 +234,7 @@ class Base
     if @safety <= 0
       puts "Zombies broke through to your base!"
       puts "Everyone was killed in the night."
-      puts "Game over, hero."
+      puts "Game over, hero.".bd_news
       exit(0)
     end
   end
@@ -242,7 +242,7 @@ class Base
   def status
     puts case @safety
     when (85..100)
-      "The base is very secure."
+      "The base is very secure.".gd_news
     when (50..84)
       "The base is fairly secure."
     when (30..49)
@@ -250,7 +250,7 @@ class Base
     when (11..29)
       "The base is vulnerable."
     when (0..10)
-      "The base is extremely vulnerable!"
+      "The base is extremely vulnerable!".bd_news
     end
 
     food_ratio = (@food / @people)
@@ -383,7 +383,7 @@ class Explore
       puts "The survivors co-operate, and offer you a fair portion of their supplies"
       puts "in exchange for allowing them to copy down your map of the area."
       puts "You agree, and leave in peace with some supplies."
-      @loot = @loot / 3
+      @loot_amount = (@loot_amount / 3)
     else
       puts "You put your hands up and attempt to negotiate with the survivors."
       puts "It becomes very clear - very quickly - that they're not willing to talk."
@@ -412,7 +412,7 @@ class Explore
       puts "hordes begin to overwhelm you, you manage to escape with just"
       puts "a few large gashes down your forearm. And... are those"
       puts "teeth marks...?"
-      puts "*** Infection not yet implemented ***"
+      puts "*** Infection not yet implemented ***".bd_news
     end
   end
 
@@ -452,7 +452,8 @@ class Explore
       puts "clipped straight through your right leg by a stray bullet. You pass out"
       puts "from a mix of pain and fear. Who knows what happened to you, because you"
       puts "never woke up after that."
-      puts "Dead! Game over."
+      puts "Dead! Game over.".bd_news
+      exit(0)
     end
   end
 
@@ -507,7 +508,7 @@ class Explore
       puts "Without warning, the noises turn to loud groans and a"
       puts "zombie sinks his teeth into your jugular from behind."
       puts "You sink to your knees, clutching your neck."
-      puts "Dead."
+      puts "Dead. Game over!".bd_news
       exit(0)
     elsif chance < 50
       puts "You wander around aimlessly, unable to locate the source"
@@ -537,7 +538,7 @@ class Explore
           odds = rand(1..10)
           if odds == 1
             puts "The survivor senses your aggression, overpowers you, and snaps your neck."
-            puts "Dead."
+            puts "Dead. Game over!".bd_news
             exit(0)
           else
             puts "You pounce on them before they can fight back, killing them quickly."
@@ -592,6 +593,17 @@ class Explore
   end
 end
 
+class String
+  def bd_news
+    "\e[#{31}m#{self}\e[0m"
+  end
+
+  def gd_news
+    "\e[#{32}m#{self}\e[0m"
+  end
+end
+
+
 class Info
 
   def main
@@ -629,11 +641,11 @@ class Info
     puts "If there is not enough, the responsibilty of rationing it"
     puts "out falls to you."
     puts "Zombie activity will change from day to day."
-    puts "Be careful not to rest until you are ready for a new day."
+    puts "Be careful not to rest until you are ready for a new day.".bd_news
   end
 
   def build
-    puts "Using the build function currently allows you to repair"
+    puts "Using the 'build' or 'repair' function currently allows you to repair"
     puts "the base against zombie damage.  Zombie damage occurs daily"
     puts "depending on the level of activity outside."
   end
@@ -642,7 +654,7 @@ class Info
     puts "The scavenge function will send one survivor out"
     puts "in search of the specified supply.  Use this to"
     puts "your advantage to stay on top of your supplies."
-    puts "Currently, they will always return safely."
+    puts "Currently, they will either return safely or not come back."
   end
 
   def check
@@ -767,7 +779,7 @@ if input == "yes"
   surv2 = Survivor.new name
   $survivors[name.downcase] = surv2
 else
-  puts "Right, they must already have names!"
+  puts "Right, they must already have their own names!".gd_news
   name = standard.sample
   surv1 = Survivor.new name
   $survivors[name.downcase] = surv1
@@ -784,8 +796,8 @@ while player.alive? do
   if day > 1
 
     if ($survivors.count_available > base.food_supply) && (base.food_supply != 0)
-      puts "There's not enough food in storage for everyone to eat"
-      puts "this morning. As leader, it is your job to ration it out."
+      puts "There's not enough food in storage for everyone to eat".bd_news
+      puts "this morning. As leader, it is your job to ration it out.".bd_news
       puts "Food portions: #{base.food_supply}     Survivors: #{$survivors.count_available}"
       puts "Who should be the first to eat?"
       $survivors.each do |name, person|
@@ -803,7 +815,7 @@ while player.alive? do
         elsif $survivors.include?(input)
           $survivors[input].ration
           base.eat
-          puts "#{input.capitalize} has eaten."
+          puts "#{input.capitalize} has eaten.".gd_news
           if base.food_supply > 0
             puts "Who should eat next?"
             puts "Food remaining: #{base.food_supply} portions."
@@ -823,7 +835,7 @@ while player.alive? do
     $survivors.each do |name, person|
 
       if person.alive? == false
-        puts "#{name.capitalize} has died of #{person.death}!"
+        puts "#{name.capitalize} has died of #{person.death}!".bd_news
         $survivors.delete(name)
       end
 
@@ -832,7 +844,7 @@ while player.alive? do
   end
 
   if player.alive? == false
-    puts "You died of #{player.death}!  Game over."
+    puts "You died of #{player.death}!  Game over.".bd_news
     exit(0)
   end
 
@@ -849,7 +861,7 @@ while player.alive? do
       puts "Each portion will feed one survivor for one day."
     end
   else
-    puts "There's no food left in storage."
+    puts "There's no food left in storage.".bd_news
   end
   puts "The water supply is still functional."
 
@@ -857,8 +869,9 @@ while player.alive? do
     puts "You've set up your base in the small house."
     puts "Through the window you can check on the zombie crowds."
     puts "The other survivors, #{surv1.name} and #{surv2.name}, look to you for guidance."
-    puts "Go scavenging (or send others!), check your map, find supplies, "
+    puts "Go scavenging (or send others!), check your map, find supplies,"
     puts "barricade your base, rest to end the day. Do whatever you can to survive."
+    puts "Use 'help list' to see all available common commands."
   end
 
   puts "What would you like to do?"
