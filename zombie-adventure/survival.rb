@@ -333,20 +333,33 @@ class Explore
     puts "#{@description} #{@location}. Looking around, you reckon you can salvage"
     puts "at least #{@loot_amount} #{@loot}, but there are #{@enemy}"
     puts "in the building. What do you do?"
+    options
   end
+
+  def options
+    puts "-- leave"
+    puts "-- use stealth"
+    if @enemy == "hostile survivors setting up a base"
+      puts "-- fight"
+      puts "-- try to negotiate"
+    elsif @enemy == "strange noises and whispers"
+      puts "-- investigate noises"
+    else
+      puts "-- fight zombies"
+    end
+  end
+
 end
 
 class Info
 
   def main
-
     puts "Each day in the zombie apocalypse is a fight for survival."
     puts "Keep an eye on your food and water supplies and make sure you"
     puts "have enough for everybody at the start of each day."
     puts "Try 'scavenge', 'build', 'check status' or 'rest'"
     puts "Use help <query> for more information."
     puts "For example, 'help list' will show you the list of available commands."
-
   end
 
   def query question
