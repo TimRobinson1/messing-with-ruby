@@ -302,6 +302,10 @@ that are potentially of interest.  Areas of interest that
 you've searched are marked with an 'X'"
   end
 
+  def exhausted?
+    @visitable == []
+  end
+
   def visit choice
     if @visitable.include?(choice)
       @map.gsub! choice.to_s, "X"
@@ -480,6 +484,7 @@ class Explore
         puts "path. You're forced to leave with much less than was available, before"
         puts "too many zombies join the hunt."
         @loot_amount = @loot_amount / 2
+        success
       else
         puts "You were completely wrong. These zombies were all too aware of your"
         puts "presence and didn't hesitate to start forming a horde to hunt you down."
@@ -624,6 +629,8 @@ class Info
       check
     when "build"
       build
+    when "show map", "map"
+      map
     when "list", "list commands", "commands"
       list
     when "scavenge"
@@ -633,6 +640,12 @@ class Info
     end
 
   end
+
+  def map
+    puts "This will show you the current map."
+  end
+
+  def
 
   def rest
     puts "The rest function will advance time by 1 day."
@@ -734,9 +747,13 @@ end
 
 def explore(map)
   map.show
-  puts "Where would you like to explore?"
-  input = gets.chomp
-  map.visit(input)
+  if map.exhausted?
+    puts "You've already explored all points of interest!"
+  else
+    puts "Where would you like to explore?"
+    input = gets.chomp
+    map.visit(input)
+  end
 end
 
 def survivor_choice
@@ -886,107 +903,107 @@ while player.alive? do
       help.query question[1]
       puts "*"*50
 
-    end
-
-    case input
-
-    when "rest"
-
-      break
-
-    when "check window", "look out window", "window", "look at zombies", "look outside", "check outside"
-      base.window_check
-
-    when "add food"
-      base.test_food_add
-
-    when "build", "repair base", "repair", "barricade"
-      base.repair
-
-    when "scavenge", "find supplies"
-      scavenge(base, map)
-
-    when "explore"
-      if player.ready?
-        if explore(map)
-          $spoils = []
-          (Explore.new).encounter
-          player.tired
-          if $spoils != []
-            base.scav_success($spoils[1], $spoils[0])
-          end
-        end
-      else
-        puts "You've already been scavenging today!"
-      end
-
-    when "show map", "check map", "map", "open map", "display map"
-
-      map.show
-
-    when "help", "help "
-
-      puts "*"*50
-      help.main
-      puts "*"*50
-
-    when "check base status", "base status"
-
-      base.status
-
-    when "check my status", "my status", "player status", "check player status"
-
-      player.status
-
-    when "check survivor status", "check survivors status", "check survivors' status", "survivors status", "survivors' status", "survivor status"
-
-      survivor_choice
-
-      input = gets.chomp.downcase
-
-      if $survivors.include?(input) && $survivors[input].away?
-        puts "#{input.capitalize} is out scavenging!"
-      elsif $survivors.include?(input)
-        $survivors[input].status
-      else
-        puts "There are no survivors by that name."
-      end
-
-    when "check status", "status"
-
-      puts "Would you like to check the status of your base, yourself, or your survivors?"
-
-      input = gets.chomp.downcase
+    else
 
       case input
-      when "base", "home"
+
+      when "rest"
+
+        break
+
+      when "check window", "look out window", "window", "look at zombies", "look outside", "check outside"
+        base.window_check
+
+      when "add food"
+        base.test_food_add
+
+      when "build", "repair base", "repair", "barricade"
+        base.repair
+
+      when "scavenge", "find supplies"
+        scavenge(base, map)
+
+      when "explore"
+        if player.ready?
+          if explore(map)
+            $spoils = []
+            (Explore.new).encounter
+            player.tired
+            if $spoils != []
+              base.scav_success($spoils[1], $spoils[0])
+            end
+          end
+        else
+          puts "You've already been scavenging today!"
+        end
+
+      when "show map", "check map", "map", "open map", "display map"
+
+        map.show
+
+      when "help", "help "
+
+        puts "*"*50
+        help.main
+        puts "*"*50
+
+      when "check base status", "base status"
 
         base.status
 
-      when "myself", "me", "self", "player"
+      when "check my status", "my status", "player status", "check player status"
 
         player.status
 
-      when "survivors"
+      when "check survivor status", "check survivors status", "check survivors' status", "survivors status", "survivors' status", "survivor status"
 
         survivor_choice
 
         input = gets.chomp.downcase
 
-        if $survivors.include?(input)
+        if $survivors.include?(input) && $survivors[input].away?
+          puts "#{input.capitalize} is out scavenging!"
+        elsif $survivors.include?(input)
           $survivors[input].status
         else
           puts "There are no survivors by that name."
         end
 
+      when "check status", "status"
+
+        puts "Would you like to check the status of your base, yourself, or your survivors?"
+
+        input = gets.chomp.downcase
+
+        case input
+        when "base", "home"
+
+          base.status
+
+        when "myself", "me", "self", "player"
+
+          player.status
+
+        when "survivors"
+
+          survivor_choice
+
+          input = gets.chomp.downcase
+
+          if $survivors.include?(input)
+            $survivors[input].status
+          else
+            puts "There are no survivors by that name."
+          end
+
+        else
+          puts "You cannot check '#{input}'."
+        end
+
       else
-        puts "You cannot check '#{input}'."
+        puts "Uncertain what '#{input}' means.  Try 'help'."
       end
-
-    else
-      puts "Uncertain what '#{input}' means.  Try 'help'."
     end
-
   end
 
   day += 1
