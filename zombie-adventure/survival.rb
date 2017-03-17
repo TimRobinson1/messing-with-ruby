@@ -138,7 +138,7 @@ end
 class Base
   def initialize
     @safety = 100
-    @food = 11
+    @food = 30
     @water = 10
     @water_supply = true
     @people = 3
@@ -299,6 +299,22 @@ you've searched are marked with an 'X'"
 
 end
 
+class Explore
+  def initialize
+    @location = ["warehouse", "pharmacy", "cinema", "hardware store",
+      "farmhouse", "hospital", "grocery store", "police station", "office"].sample
+    @description = ["dilapidated", "rundown", "badly damaged", "slightly flooded",
+    "crumbling", "rickety and dark", "dark, rotting", "mostly intact", "seemingly abandoned"].sample
+    @loot = ["food", "building supplies"].sample
+    @loot_amount = rand(6..23)
+    @enemy = ["zombies milling about", "strange noises and whispers", "hostile survivors setting up a base"].sample
+    puts "You approach the point of interest on the map, to find a"
+    puts "#{@description} #{@location}. Looking around, you reckon you can salvage"
+    puts "at least #{@loot_amount} #{@loot}, but there are #{@enemy}"
+    puts "in the building. What do you do?"
+  end
+end
+
 class Info
 
   def main
@@ -428,6 +444,8 @@ end
 def explore(map)
   map.show
   puts "Where would you like to explore?"
+  input = gets.chomp
+  map.visit(input)
 end
 
 def survivor_choice
@@ -590,15 +608,15 @@ while player.alive? do
     when "add food"
       base.test_food_add
 
-    when "build", "repair base", "barricade"
+    when "build", "repair base", "repair", "barricade"
       base.repair
 
-    when "scavenge"
+    when "scavenge", "find supplies"
       scavenge(base, map)
 
     when "explore"
-      map.show
-      puts "Where would you like to explore?"
+      explore(map)
+      Explore.new
 
     when "show map", "check map", "map", "open map", "display map"
 
