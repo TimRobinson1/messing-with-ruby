@@ -358,7 +358,7 @@ class Explore
     when "fight survivors"
       human_combat
     when "try to negotiate", "negotiate"
-      # negotiate
+      negotiate
     when "investigate noises"
       investigate
     when "fight zombies"
@@ -366,6 +366,21 @@ class Explore
     else
       puts "Not sure what '#{input}' means, try typing one of the suggestions."
       options
+    end
+  end
+
+  def negotiate
+    chance = rand(1..3)
+    if chance == 3
+      puts "The survivors co-operate, and offer you a fair portion of their supplies"
+      puts "in exchange for allowing them to copy down your map of the area."
+      puts "You agree, and leave in peace with some supplies."
+      @loot = @loot / 3
+    else
+      puts "You put your hands up and attempt to negotiate with the survivors."
+      puts "It becomes very clear - very quickly - that they're not willing to talk."
+      puts "You flee, barely escaping with your life."
+      puts "You return to base empty-handed."
     end
   end
 
