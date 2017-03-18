@@ -1,11 +1,20 @@
 require 'CSV'
 
 # Starting character statistics
-$inventory = ""
-$has_weapon = false
-$health = 100
-$feeling = "a bit confused"
-$location = "start_woods"
+class Player
+  def initialize(name)
+    @name = name
+    @inventory = ""
+    @has_weapon = false
+    @health = 100
+    @feeling = "a bit confused"
+    @location = "start_woods"
+  end
+
+  def where?
+    @location
+  end
+end
 
 class Defeat
   def initialize(enemy)
@@ -16,6 +25,11 @@ class Defeat
     puts "Game over!"
   end
 end
+
+puts "Welcome to the game!"
+print "Name your hero: "
+input = gets.chomp
+player = Player.new(input)
 
 def fight_mode(input)
   input.split(" ").any? { |x| ["fight", "kill", "attack", "punch", "hit", "murder", "stab"].include? x }
@@ -51,10 +65,10 @@ def load_game
     $inventory = row[0]
     $has_weapon = row[1]
     $health = row[2]
-    $location = row[3]
+    location = row[3]
   end
   puts "Game loaded!"
-  send("#{$location}")
+  send("#{location}")
 end
 
 def generic_responses
@@ -164,4 +178,4 @@ def start_woods
 end
 
 puts "With a sharp pain in your head, you awaken."
-send("#{$location}")
+send("#{player.where?}")
