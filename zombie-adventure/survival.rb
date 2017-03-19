@@ -608,7 +608,6 @@ class String
   end
 end
 
-
 class Info
 
   def main
@@ -743,6 +742,59 @@ def scavenge(base, map)
 
   end
 
+end
+
+def radio(day)
+  case day
+  when 1
+    puts '"Reports are coming in of a strange infection sweeping across the country.'
+    puts 'Our reporters are on the scene at the outskirts of the military quarantine,'
+    puts 'and we\'ll keep you up to date with the latest news."'
+  when 2
+    puts '"We\'ve got all your favourite tunes, right here, on KMCL radio! Stay tuned."'
+  when 3
+    puts '"The people inside the quarantine zone... I feel for them.  It\'s not something"'
+    puts 'any of us can possibly imagine. The infected are ravenous, and just... evil.'
+    puts 'Stay safe everybody."'
+  when 4
+    puts '"A level nine alert has been issued. You are advised to remain in your homes'
+    puts 'and to avoid attempting to contact anyone outside of your own home. Lock your'
+    puts 'doors and windows and await further instructions."'
+  when 5
+    puts '"So Jim, what do you think of this White Flu epidemic?"'
+    puts '"Classic government manipulation case, Barry. You can\'t really think'
+    puts 'that there are literal zombies out there? It\'s fear tactics to control us."'
+    puts '"If you say so Jim! Stay tuned for more after this message from our sponsors."'
+  when 6
+    puts '"It\'s not viral, it\'s not bacterial, hell it\'s not even fungal. Preliminary'
+    puts 'research suggests that it\'s nothing the human race has ever encountered before,'
+    puts 'an entirely new kind of life, a new form of parasite. And it\'s not happy with us."'
+  when 7
+    puts '"Reports suggest that the president had taken ill earlier this morning following'
+    puts 'his sudden departure from a White House press briefing. Speculation around the'
+    puts 'president\'s health being endangered by the White Flu is unconfirmed at this time."'
+  when 8
+    puts '"The Bible saw this coming. This is the end of days."'
+  when 9
+    puts '"Rampant speculation was confirmed this morning when vice president Leyland'
+    puts 'addressed the nation and announced the death of president De Santis. It has'
+    puts 'been confirmed, it seems, that it was in fact the White Flu epidemic."'
+  when 10
+    puts '"This morning the Eastern border of the quarantine zone was breached'
+    puts 'by several infected individuals and the entire operation has been brought'
+    puts 'to an end. General Scott Thurman is attempting to re-establish a quaratnine'
+    puts 'zone, although with the death of president De Santis as of yesterday, many'
+    puts 'are calling into question the tactic\'s effectiveness in the first place."'
+  when 11
+    puts '"A state of martial law has been declared across the nation. Please remain'
+    puts 'calm, stay indoors, and avoid any unnecessary contact with others."'
+  else
+    puts '"This is the emergency broadcast system. All citizens are advised to remain'
+    puts 'in your homes and barricade any and all means of entrance. Infected individuals'
+    puts 'are highly dangerous, and the use of lethal force is authorised under'
+    puts 'the White Flu Eradication & Civil Protection Act - Section 5.'
+    puts 'Await further instructions."'
+  end
 end
 
 def explore(map)
@@ -940,6 +992,11 @@ while player.alive? do
       when "show map", "check map", "map", "open map", "display map"
 
         map.show
+
+      when "radio", "listen to radio", "check radio"
+
+        puts "You check the radio and tune in to this:"
+        radio(day)
 
       when "help", "help "
 
