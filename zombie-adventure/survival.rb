@@ -634,6 +634,8 @@ class Info
       list
     when "scavenge"
       scavenge
+    when "radio", "listen to radio", "check radio"
+      radio
     else
       puts "Unsure what #{question} is referring to."
     end
@@ -642,6 +644,11 @@ class Info
 
   def map
     puts "This will show you the current map."
+  end
+
+  def radio
+    puts "You can check the radio each day to get an update"
+    puts "on how the world is coping with the zombie apocalypse."
   end
 
   def
@@ -683,7 +690,7 @@ class Info
 
   def list
     commands = ["help", "look outside", "scavenge", "check status",
-    "rest", "show map", "explore", "build"].sort
+    "rest", "show map", "explore", "build", "listen to radio"].sort
     commands.each do |x|
       puts "-- #{x}"
     end
@@ -937,6 +944,7 @@ while player.alive? do
   if day == 1
     puts "You've set up your base in the small house."
     puts "Through the window you can check on the zombie crowds."
+    puts "You have a small radio to keep track of the world\'s status."
     puts "The other survivors, #{surv1.name} and #{surv2.name}, look to you for guidance."
     puts "Go scavenging (or send others!), check your map, find supplies,"
     puts "barricade your base, rest to end the day. Do whatever you can to survive."
