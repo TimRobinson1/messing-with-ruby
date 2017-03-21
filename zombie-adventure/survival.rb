@@ -740,7 +740,7 @@ def scavenge(base, map)
       puts "Use the 'explore' function if you wish to scavenge by yourself!"
     elsif input == "dog"
       puts "You can't send the dog to scavenge by themselves!"
-    elsif $survivors[input].away?
+    elsif $survivors.include?(input) && $survivors[input].away?
       puts "That survivor is unavailable."
     elsif $survivors.include?(input)
       puts "Sending #{input.capitalize} to scavenge for #{target}!"
