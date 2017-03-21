@@ -9,6 +9,7 @@ class Survivor
     @scavenging = false
     @days_out = 0
     @scav_ready = true
+    @zombified = 0
   end
 
   def name
@@ -58,6 +59,19 @@ class Survivor
     @scav_ready = true
   end
 
+  def ill?
+    if @illness
+      @health -= 5
+      @zombified += rand(17..45)
+      if @zombified >= 100
+        @health = 0
+        alive?
+      end
+    else
+      puts "#{name} is fine."
+    end
+  end
+
   def tired
     @scav_ready = false
   end
@@ -97,7 +111,7 @@ class Survivor
       @days_out = 0
     elsif @survival_odds < (@threat*8)
       puts "#{name} has returned, but looking rather pale. They've been scratched by infected.".bd_news
-      alive?
+      @illness = true
       @scavenging = false
       @days_out = 0
     else
@@ -140,6 +154,9 @@ class Survivor
       false
     elsif @health == -100
       @death = "something whilst scavenging"
+      false
+    elsif @health == 0 && @illness
+      @death = "infection! They were killed when they turned!"
       false
     elsif @health <= 0
       @death = "serious injuries"
@@ -1084,5 +1101,7 @@ while player.alive? do
   base.safe?
   base.daily_damage
   player.revitalize
+  surv1.ill?
+  surv2.ill?
 
 end
