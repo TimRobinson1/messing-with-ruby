@@ -1112,14 +1112,15 @@ while player.alive? do
   end
 
   day += 1
+
+
   base.zombies_daily_change
   base.safe?
   base.daily_damage
-  player.revitalize
-  surv1.revitalize
-  surv2.revitalize
-  surv1.ill?
-  surv2.ill?
-  player.ill?
+  
+  $survivors.each do |name, person|
+    person.ill?
+    person.revitalize
+  end
 
 end
