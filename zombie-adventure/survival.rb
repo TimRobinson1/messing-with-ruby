@@ -1025,6 +1025,7 @@ while player.alive? do
             player.tired
             if $spoils.count == 3
               player.infected
+              base.scav_success($spoils[1], $spoils[0])
             elsif $spoils != []
               base.scav_success($spoils[1], $spoils[0])
             end
