@@ -769,19 +769,21 @@ def scavenge(base, map)
       puts "Use the 'explore' function if you wish to scavenge by yourself!"
     elsif input == "dog"
       puts "You can't send the dog to scavenge by themselves!"
-    elsif $survivors.include?(input) && $survivors[input].unable?
-      puts "They're not looking too great.. they shouldn't be going out in that condition."
-    elsif $survivors.include?(input) && !$survivors[input].ready?
-      puts "They've already been scavenging today."
-    elsif $survivors.include?(input) && $survivors[input].away?
-      puts "That survivor is unavailable."
     elsif $survivors.include?(input)
-      puts "Sending #{input.capitalize} to scavenge for #{target}!"
-      $survivors[input].scav_mission(target)
-      time = rand(2..4)
-      death = rand(1..80)
-      threat = base.danger_level
-      $survivors[input].survival_odds(time, death, threat)
+      if $survivors[input].unable?
+        puts "They're not looking too great.. they shouldn't be going out in that condition."
+      elsif !$survivors[input].ready?
+        puts "They've already been scavenging today."
+      elsif $survivors[input].away?
+        puts "That survivor is unavailable."
+      else
+        puts "Sending #{input.capitalize} to scavenge for #{target}!"
+        $survivors[input].scav_mission(target)
+        time = rand(2..4)
+        death = rand(1..80)
+        threat = base.danger_level
+        $survivors[input].survival_odds(time, death, threat)
+      end
     else
       puts "There are no survivors by that name."
     end
