@@ -428,12 +428,12 @@ class Explore
     # Will add possibility of zombie bites and infections at a later date!
     puts "You decide to take on the zombies inside the #{@location}."
     chance = rand(1..10)
-    if chance <= 0
+    if chance <= 4
       puts "Luckily, they seem pretty dazed and thinly spread. You make"
       puts "short work of them, leaving the #{@location} free for you to"
       puts "scavenge safely."
       success(true)
-    elsif chance <= 0
+    elsif chance <= 7
       puts "Unfortunately, the zombies here seem to be recently infected,"
       puts "so they're a little sharper than usual. As you hack and slash"
       puts "your way through the hordes, more and more keep coming, and"
