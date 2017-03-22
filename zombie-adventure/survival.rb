@@ -122,7 +122,6 @@ class Survivor
       @days_out = 0
     else
       units_found = rand(5..30)
-      puts "Survival odds: #{@survival_odds}  Danger level(times 3): #{@threat}"
       puts "#{name} has returned from scavenging with #{units_found} #{@supplies}!".gd_news
       @scavenging = false
       @days_out = 0
