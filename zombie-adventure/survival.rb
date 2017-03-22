@@ -76,6 +76,10 @@ class Survivor
     @scav_ready = false
   end
 
+  def infected
+    @illness = true
+  end
+
   def ration
     @hunger += 1
   end
@@ -424,12 +428,12 @@ class Explore
     # Will add possibility of zombie bites and infections at a later date!
     puts "You decide to take on the zombies inside the #{@location}."
     chance = rand(1..10)
-    if chance <= 6
+    if chance <= 0
       puts "Luckily, they seem pretty dazed and thinly spread. You make"
       puts "short work of them, leaving the #{@location} free for you to"
       puts "scavenge safely."
-      success
-    elsif chance <= 9
+      success(true)
+    elsif chance <= 0
       puts "Unfortunately, the zombies here seem to be recently infected,"
       puts "so they're a little sharper than usual. As you hack and slash"
       puts "your way through the hordes, more and more keep coming, and"
@@ -437,10 +441,11 @@ class Explore
     else
       puts "Unfortunately, the zombies here seem to be recently infected,"
       puts "and they're relentless. Barely escaping with your life as the"
-      puts "hordes begin to overwhelm you, you manage to escape with just"
-      puts "a few large gashes down your forearm. And... are those"
-      puts "teeth marks...?"
-      puts "*** Infection not yet implemented ***".bd_news
+      puts "hordes begin to overwhelm you, you manage to grab what you can"
+      puts "and escape with just a few large gashes down your forearm."
+      puts "And... are those... teeth marks...?".bd_news
+      puts "You're not feeling too great!".bd_news
+      success(false)
     end
   end
 
@@ -457,14 +462,14 @@ class Explore
       puts "skull, with brain matter over your top, that you consider that they may"
       puts "not have been hostile after all. You shake the thought from your head,"
       puts "and drop the bloodied hammer by the fresh corpse. You start scavenging."
-      success
+      success(true)
     when 2
       puts "Although they've taken over the #{@location}, you reckon you can"
       puts "take them on. You snatch an enormous hammer from the ground and"
       puts "begin fighting your way through the building. Dodging bullets and"
       puts "angrily thrusted knives, you manage to clear the #{@location} of"
       puts "life. Satisfied that they're all gone, you begin to scavenge."
-      success
+      success(true)
     when 3
       puts "They're swarming all over the #{@location}. You do your best to kick,"
       puts "punch, scrape, slash and shoot your way through, but to no avail."
@@ -492,7 +497,7 @@ class Explore
       puts "the strange noises. After several minutes of slow, quiet"
       puts "searching, you decide you've got enough and leave, the mystery"
       puts "of the strange noises forgotten behind you."
-      success
+      success(true)
     elsif @enemy == "zombies milling about"
       puts "Zombies are stupid and slow. With that in mind, you hope that they"
       puts "won't notice you as you move around gathering supplies."
@@ -501,14 +506,14 @@ class Explore
       when 1
         puts "You're correct in your thinking and manage to scavenge all that"
         puts "you can find without any of the zombies noticing you."
-        success
+        success(true)
       when 2
         puts "The zombies are quite numerous, and soon catch on that you're"
         puts "skulking around. They begin to follow you and start blocking your"
         puts "path. You're forced to leave with much less than was available, before"
         puts "too many zombies join the hunt."
         @loot_amount = @loot_amount / 2
-        success
+        success(true)
       else
         puts "You were completely wrong. These zombies were all too aware of your"
         puts "presence and didn't hesitate to start forming a horde to hunt you down."
@@ -520,7 +525,7 @@ class Explore
         puts "You manage to completely avoid contact with the hostile survivors,"
         puts "and you're extremely chuffed with how much you've been able to steal"
         puts "right under their noses. Still undetected, you make your escape."
-        success
+        success(true)
       else
         puts "There are too many survivors wandering around, and before you can"
         puts "find anything useful, you're spotted. As the deranged survivor screams"
@@ -543,7 +548,7 @@ class Explore
       puts "You wander around aimlessly, unable to locate the source"
       puts "of the strange noises. After several minutes of fruitless"
       puts "searching, you give up and start scavenging supplies."
-      success
+      success(true)
     elsif chance < 70
       puts "You manage to track the noises to a shoddily barricaded room"
       puts "where a survivor is pacing back and forth. They're unsure of"
@@ -555,7 +560,7 @@ class Explore
         name = "Steve"
         surv3 = Survivor.new name
         $survivors[name.downcase] = surv3
-        success
+        success(true)
       elsif input == "no"
         puts "You decline the survivor's offer and they're immediately hostile."
         puts "They threaten you to leave the building."
@@ -572,7 +577,7 @@ class Explore
           else
             puts "You pounce on them before they can fight back, killing them quickly."
             puts "You set out to scavenge the rest of the building."
-            success
+            success(true)
           end
         else
           puts "Unsure as to the best thing to do, you leave them alone."
@@ -589,12 +594,12 @@ class Explore
       puts "the room but there's no one in there."
       puts "Determined to be brave, you shut the door to the room with a shiver"
       puts "running down your spine, and begin searching the rest of the building."
-      success
+      success(true)
     elsif chance < 85
       puts "You follow the strange noises until it nearly leads you into a room"
       puts "packed with shambling zombies. You pause, and manage to close the door"
       puts "before they notice you. You proceed to loot the rest of the building."
-      success
+      success(true)
     elsif chance <= 97
       puts "The noise seems to be coming from a hissing radio. It crackles and hisses"
       puts "with bursts of static, before suddenly exclaiming 'The end of times are here,"
@@ -602,7 +607,7 @@ class Explore
       puts "you died.' You stare at the radio for several seconds before you realise that"
       puts "the battery has been ripped out of the back."
       puts "Utterly confused, you hasten to explore the building and get out quickly."
-      success
+      success(true)
     else
       puts "You follow the noises into a small room, where there's a scruffy"
       puts "looking dog! He pants happily when he sees you, as if he can tell"
@@ -612,13 +617,17 @@ class Explore
       input = gets.chomp
       dog = Survivor.new input
       $survivors[input.downcase] = dog
-      success
+      success(true)
     end
   end
 
-  def success
-    puts "You manage to return to your base with #{@loot_amount} #{@loot}!"
-    $spoils = [@loot_amount, @loot]
+  def success(status)
+      puts "You manage to return to your base with #{@loot_amount} #{@loot}!"
+    if status
+      $spoils = [@loot_amount, @loot]
+    else
+      $spoils = [@loot_amount, @loot, "infected"]
+    end
   end
 end
 
@@ -1014,7 +1023,9 @@ while player.alive? do
             $spoils = []
             (Explore.new).encounter
             player.tired
-            if $spoils != []
+            if $spoils.count == 3
+              player.infected
+            elsif $spoils != []
               base.scav_success($spoils[1], $spoils[0])
             end
           end
