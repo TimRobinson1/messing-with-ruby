@@ -124,6 +124,7 @@ class Survivor
       puts "#{name} has returned from scavenging with #{units_found} #{@supplies}!".gd_news
       @scavenging = false
       @days_out = 0
+      tired
       base.scav_success(@supplies, units_found)
     end
   end
@@ -766,6 +767,8 @@ def scavenge(base, map)
       puts "Use the 'explore' function if you wish to scavenge by yourself!"
     elsif input == "dog"
       puts "You can't send the dog to scavenge by themselves!"
+    elsif $survivors.include?(input) && !$survivors[input].ready?
+      puts "They've already been scavenging today."
     elsif $survivors.include?(input) && $survivors[input].away?
       puts "That survivor is unavailable."
     elsif $survivors.include?(input)
@@ -1113,7 +1116,10 @@ while player.alive? do
   base.safe?
   base.daily_damage
   player.revitalize
+  surv1.revitalize
+  surv2.revitalize
   surv1.ill?
   surv2.ill?
+  player.ill?
 
 end
