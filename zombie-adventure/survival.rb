@@ -67,8 +67,6 @@ class Survivor
         @health = 0
         alive?
       end
-    else
-      puts "#{name} is fine."
     end
   end
 
@@ -1117,7 +1115,7 @@ while player.alive? do
   base.zombies_daily_change
   base.safe?
   base.daily_damage
-  
+
   $survivors.each do |name, person|
     person.ill?
     person.revitalize
