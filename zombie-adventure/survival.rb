@@ -101,6 +101,10 @@ class Survivor
     @scavenging
   end
 
+  def unable?
+    @illness
+  end
+
   def mission(base)
     if @time > @days_out
       puts "#{name} has not returned from scavenging yet."
@@ -765,6 +769,8 @@ def scavenge(base, map)
       puts "Use the 'explore' function if you wish to scavenge by yourself!"
     elsif input == "dog"
       puts "You can't send the dog to scavenge by themselves!"
+    elsif $survivors.include?(input) && $survivors[input].unable?
+      puts "They're not looking too great.. they shouldn't be going out in that condition."
     elsif $survivors.include?(input) && !$survivors[input].ready?
       puts "They've already been scavenging today."
     elsif $survivors.include?(input) && $survivors[input].away?
