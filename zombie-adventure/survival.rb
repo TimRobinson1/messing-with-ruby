@@ -837,8 +837,25 @@ def radio(day)
   when 11
     puts '"A state of martial law has been declared across the nation. Please remain'
     puts 'calm, stay indoors, and avoid any unnecessary contact with others."'
+  when 20
+    puts '"If anyone can hear me... that means you\'re inside the zone too.'
+    puts 'God help us all."'
+  when 25
+    puts '"...Under...  Attack... tell the.... first lady.... shelter for them....'
+    puts 'Take care.... we\'re the last of us...... Henman out."'
+  when 30
+    puts '"THIS IS THE END OF DAYS.  PURGE THE INFECTED.  SURVIVE."'
+  when 40
+    puts '"The blood tide is rising. These are the closing days of the human era.'
+    puts 'and the final hours... of my life."'
+  when 50
+    puts '"The nukes are coming."'
+  when 100
+    puts '"This is President Zombie speaking. There are still a few small pockets'
+    puts 'of human resistence, but otherwise, situation normal. Carry on, brain-'
+    puts 'eating brethren.'
   else
-    puts '"This is the emergency broadcast system. All citizens are advised to remain'
+    puts '"This is the automated emergency broadcast system. All citizens are advised to remain'
     puts 'in your homes and barricade any and all means of entrance. Infected individuals'
     puts 'are highly dangerous, and the use of lethal force is authorised under'
     puts 'the White Flu Eradication & Civil Protection Act - Section 5.'
