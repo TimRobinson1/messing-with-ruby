@@ -798,70 +798,70 @@ end
 def radio(day)
   case day
   when 1
-    p '"Reports are coming in of a strange infection sweeping across the country.'
-    p 'Our reporters are on the scene at the outskirts of the military quarantine,'
-    p 'and we\'ll keep you up to date with the latest news."'
+    puts '"Reports are coming in of a strange infection sweeping across the country.'
+    puts 'Our reporters are on the scene at the outskirts of the military quarantine,'
+    puts 'and we\'ll keep you up to date with the latest news."'
   when 2
-    p '"We\'ve got all your favourite tunes, right here, on KMCL radio! Stay tuned."'
+    puts '"We\'ve got all your favourite tunes, right here, on KMCL radio! Stay tuned."'
   when 3
-    p '"The people inside the quarantine zone... I feel for them.  It\'s not something"'
-    p 'any of us can possibly imagine. The infected are ravenous, and just... evil.'
-    p 'Stay safe everybody."'
+    puts '"The people inside the quarantine zone... I feel for them.  It\'s not something"'
+    puts 'any of us can possibly imagine. The infected are ravenous, and just... evil.'
+    puts 'Stay safe everybody."'
   when 4
-    p '"A level nine alert has been issued. You are advised to remain in your homes'
-    p 'and to avoid attempting to contact anyone outside of your own home. Lock your'
-    p 'doors and windows and await further instructions."'
+    puts '"A level nine alert has been issued. You are advised to remain in your homes'
+    puts 'and to avoid attempting to contact anyone outside of your own home. Lock your'
+    puts 'doors and windows and await further instructions."'
   when 5
-    p '"So Jim, what do you think of this White Flu epidemic?"'
-    p '"Classic government manipulation case, Barry. You can\'t really think'
-    p 'that there are literal zombies out there? It\'s fear tactics to control us."'
-    p '"If you say so Jim! Stay tuned for more after this message from our sponsors."'
+    puts '"So Jim, what do you think of this White Flu epidemic?"'
+    puts '"Classic government manipulation case, Barry. You can\'t really think'
+    puts 'that there are literal zombies out there? It\'s fear tactics to control us."'
+    puts '"If you say so Jim! Stay tuned for more after this message from our sponsors."'
   when 6
-    p '"It\'s not viral, it\'s not bacterial, hell it\'s not even fungal. Preliminary'
-    p 'research suggests that it\'s nothing the human race has ever encountered before,'
-    p 'an entirely new kind of life, a new form of parasite. And it\'s not happy with us."'
+    puts '"It\'s not viral, it\'s not bacterial, hell it\'s not even fungal. Preliminary'
+    puts 'research suggests that it\'s nothing the human race has ever encountered before,'
+    puts 'an entirely new kind of life, a new form of parasite. And it\'s not happy with us."'
   when 7
-    p '"Reports suggest that the president had taken ill earlier this morning following'
-    p 'his sudden departure from a White House press briefing. Speculation around the'
-    p 'president\'s health being endangered by the White Flu is unconfirmed at this time."'
+    puts '"Reports suggest that the president had taken ill earlier this morning following'
+    puts 'his sudden departure from a White House press briefing. Speculation around the'
+    puts 'president\'s health being endangered by the White Flu is unconfirmed at this time."'
   when 8
-    p '"The Bible saw this coming. This is the end of days."'
+    puts '"The Bible saw this coming. This is the end of days."'
   when 9
-    p '"Rampant speculation was confirmed this morning when vice president Leyland'
-    p 'addressed the nation and announced the death of president De Santis. It has'
-    p 'been confirmed, it seems, that it was in fact the White Flu epidemic."'
+    puts '"Rampant speculation was confirmed this morning when vice president Leyland'
+    puts 'addressed the nation and announced the death of president De Santis. It has'
+    puts 'been confirmed, it seems, that it was in fact the White Flu epidemic."'
   when 10
-    p '"This morning the Eastern border of the quarantine zone was breached'
-    p 'by several infected individuals and the entire operation has been brought'
-    p 'to an end. General Scott Thurman is attempting to re-establish a quaratnine'
-    p 'zone, although with the death of president De Santis as of yesterday, many'
-    p 'are calling into question the tactic\'s effectiveness in the first place."'
+    puts '"This morning the Eastern border of the quarantine zone was breached'
+    puts 'by several infected individuals and the entire operation has been brought'
+    puts 'to an end. General Scott Thurman is attempting to re-establish a quaratnine'
+    puts 'zone, although with the death of president De Santis as of yesterday, many'
+    puts 'are calling into question the tactic\'s effectiveness in the first place."'
   when 11
-    p '"A state of martial law has been declared across the nation. Please remain'
-    p 'calm, stay indoors, and avoid any unnecessary contact with others."'
+    puts '"A state of martial law has been declared across the nation. Please remain'
+    puts 'calm, stay indoors, and avoid any unnecessary contact with others."'
   when 20
-    p '"If anyone can hear me... that means you\'re inside the zone too.'
-    p 'God help us all."'
+    puts '"If anyone can hear me... that means you\'re inside the zone too.'
+    puts 'God help us all."'
   when 25
-    p '"...Under...  Attack... tell the.... first lady.... shelter for them....'
-    p 'Take care.... we\'re the last of us...... Henman out."'
+    puts '"...Under...  Attack... tell the.... first lady.... shelter for them....'
+    puts 'Take care.... we\'re the last of us...... Henman out."'
   when 30
-    p '"THIS IS THE END OF DAYS.  PURGE THE INFECTED.  SURVIVE."'
+    puts '"THIS IS THE END OF DAYS.  PURGE THE INFECTED.  SURVIVE."'
   when 40
-    p '"The blood tide is rising. These are the closing days of the human era.'
-    p 'and the final hours... of my life."'
+    puts '"The blood tide is rising. These are the closing days of the human era.'
+    puts 'and the final hours... of my life."'
   when 50
-    p '"The nukes are coming."'
+    puts '"The nukes are coming."'
   when 100
-    p '"This is President Zombie speaking. There are still a few small pockets'
-    p 'of human resistence, but otherwise, situation normal. Carry on, brain-'
-    p 'eating brethren.'
+    puts '"This is President Zombie speaking. There are still a few small pockets'
+    puts 'of human resistence, but otherwise, situation normal. Carry on, brain-'
+    puts 'eating brethren.'
   else
-    p '"This is the automated emergency broadcast system. All citizens are advised to remain'
-    p 'in your homes and barricade any and all means of entrance. Infected individuals'
-    p 'are highly dangerous, and the use of lethal force is authorised under'
-    p 'the White Flu Eradication & Civil Protection Act - Section 5.'
-    p 'Await further instructions."'
+    puts '"This is the automated emergency broadcast system. All citizens are advised to remain'
+    puts 'in your homes and barricade any and all means of entrance. Infected individuals'
+    puts 'are highly dangerous, and the use of lethal force is authorised under'
+    puts 'the White Flu Eradication & Civil Protection Act - Section 5.'
+    puts 'Await further instructions."'
   end
 end
 
