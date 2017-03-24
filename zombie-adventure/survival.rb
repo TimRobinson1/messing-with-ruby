@@ -373,7 +373,7 @@ class Explore
   def encounter
     puts "You approach the point of interest on the map, to find a"
     puts "#{@description} #{@location}. Looking around, you reckon you can salvage"
-    puts "at least #{@loot_amount} #{@loot}, but there are #{@enemy}"
+    puts "around #{@loot_amount + rand(1..5) - rand(1..5)} #{@loot}, but there are #{@enemy}"
     puts "in the building. What do you do?"
     options
   end
