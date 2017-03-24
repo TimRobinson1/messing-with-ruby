@@ -181,7 +181,7 @@ end
 class Base
   def initialize
     @safety = 100
-    @food = 30
+    @food = 15
     @water = 10
     @water_supply = true
     @people = 3
@@ -1034,9 +1034,6 @@ while player.alive? do
 
       when "check window", "look out window", "window", "look at zombies", "look outside", "check outside"
         base.window_check
-
-      when "add food"
-        base.test_food_add
 
       when "build", "repair base", "repair", "barricade"
         base.repair
