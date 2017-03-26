@@ -418,6 +418,7 @@ class Explore
       puts "in exchange for allowing them to copy down your map of the area."
       puts "You agree, and leave in peace with some supplies."
       @loot_amount = (@loot_amount / 3)
+      success(true)
     else
       puts "You put your hands up and attempt to negotiate with the survivors."
       puts "It becomes very clear - very quickly - that they're not willing to talk."
@@ -523,7 +524,7 @@ class Explore
       end
     else
       chance = rand(1..4)
-      if chance == 4
+      if chance > 2
         puts "You manage to completely avoid contact with the hostile survivors,"
         puts "and you're extremely chuffed with how much you've been able to steal"
         puts "right under their noses. Still undetected, you make your escape."
@@ -687,8 +688,6 @@ class Info
     puts "You can check the radio each day to get an update"
     puts "on how the world is coping with the zombie apocalypse."
   end
-
-  def
 
   def rest
     puts "The rest function will advance time by 1 day."
