@@ -1,4 +1,4 @@
-require 'CSV'
+require 'yaml'
 
 # Starting character statistics
 class Player
@@ -30,10 +30,23 @@ class Defeat
   end
 end
 
-puts "Welcome to the game!"
-print "Name your hero: "
-input = gets.chomp
-player = Player.new(input)
+class Area
+  def initialize(player)
+    @prev_area = player.where?
+  end
+end
+
+#puts "Welcome to the game!"
+#print "Name your hero: "
+#input = gets.chomp
+#player = Player.new(input)
+arr = %w(test face cats dogs)
+
+File.open('testdoc.yml','w') do |h|
+   h.write arr.to_yaml
+end
+
+progress = YAML.load_file('testdoc.yml')
 
 def town_shop
   puts "You enter the town shop and see a variety of items for sale."
@@ -74,4 +87,4 @@ def start_woods
 end
 
 puts "With a sharp pain in your head, you awaken."
-send("#{player.where?}")
+#send("#{player.where?}")
