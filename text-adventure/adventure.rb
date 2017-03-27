@@ -18,6 +18,14 @@ class Player
   def location(area)
     @location = area
   end
+
+  def save
+    [@name, @inventory, @has_weapon, @health, @feeling, @location]
+  end
+
+  def load(l)
+    @name, @inventory, @has_weapon, @health, @feeling, @location = l[0], l[1], l[2], l[3], l[4], l[5]
+  end
 end
 
 class Defeat
@@ -36,17 +44,17 @@ class Area
   end
 end
 
-#puts "Welcome to the game!"
-#print "Name your hero: "
-#input = gets.chomp
-#player = Player.new(input)
-arr = %w(test face cats dogs)
+puts "Welcome to the game!"
+print "Name your hero: "
+input = gets.chomp
+player = Player.new(input)
 
 File.open('testdoc.yml','w') do |h|
-   h.write arr.to_yaml
+   h.write player.save.to_yaml
 end
 
 progress = YAML.load_file('testdoc.yml')
+player.load(progress)
 
 def town_shop
   puts "You enter the town shop and see a variety of items for sale."
@@ -87,4 +95,4 @@ def start_woods
 end
 
 puts "With a sharp pain in your head, you awaken."
-#send("#{player.where?}")
+send("#{player.where?}")
