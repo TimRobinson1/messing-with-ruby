@@ -11,6 +11,10 @@ class Player
     @location = "start_woods"
   end
 
+  def print_name
+    @name
+  end
+
   def where?
     @location
   end
@@ -24,7 +28,8 @@ class Player
   end
 
   def load(l)
-    @name, @inventory, @has_weapon, @health, @feeling, @location = l[0], l[1], l[2], l[3], l[4], l[5]
+    @name, @inventory, @has_weapon = l[0], l[1], l[2]
+    @health, @feeling, @location = l[3], l[4], l[5]
   end
 end
 
@@ -42,19 +47,31 @@ class Area
   def initialize(player)
     @prev_area = player.where?
   end
+
+  def help
+    puts "General commands:"
+    puts "1. 'check inventory' - Displays current inventory."
+    puts "2. 'check health' - Displays current health level."
+    puts "3. 'show feelings' - Displays characater's current emotional state."
+    puts "3. 'save game' - Saves progress to 'saves.yml'"
+    puts "4. 'load game' - Loads progress from 'saves.yml'"
+  end
 end
 
-puts "Welcome to the game!"
-print "Name your hero: "
-input = gets.chomp
-player = Player.new(input)
-
-File.open('testdoc.yml','w') do |h|
-   h.write player.save.to_yaml
+def save_progress(player)
+  # For saving progress
+  File.open('saves.yml','w') do |h|
+     h.write player.save.to_yaml
+  end
 end
 
-progress = YAML.load_file('testdoc.yml')
-player.load(progress)
+def load_progress(player)
+  # For loading player progress
+  puts "Loading..."
+  progress = YAML.load_file('saves.yml')
+  player.load(progress)
+  puts "Your hero, #{player.print_name}, has loaded successfully!"
+end
 
 def town_shop
   puts "You enter the town shop and see a variety of items for sale."
@@ -66,17 +83,7 @@ def town_shop
   print "You return to town."
 end
 
-def help
-  puts "General commands:"
-  puts "1. 'check inventory' - Displays current inventory."
-  puts "2. 'check health' - Displays current health level."
-  puts "3. 'show feelings' - Displays characater's current emotional state."
-  puts "3. 'save game' - Saves progress to 'saves.csv'"
-  puts "4. 'load game' - Loads progress from 'saves.csv'"
-end
-
 def start_woods
-  $location = __method__
   puts "You find yourself in a dark wood. A winding path stretches in front of you\nto the North. There is also a darker path leading East. What do you do?"
   while true do
     input = gets.chomp.downcase
@@ -92,6 +99,18 @@ def start_woods
       puts "I don't understand '#{input}'"
     end
   end
+end
+
+puts "Welcome to the game!"
+puts "Would you like to load a previous game?"
+input = gets.chomp
+if input.downcase == "yes"
+  load_progress(player = Player.new('Player'))
+else
+  puts "Starting a new game!"
+  print "Name your hero: "
+  input = gets.chomp
+  player = Player.new(input)
 end
 
 puts "With a sharp pain in your head, you awaken."
