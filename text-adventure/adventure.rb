@@ -17,6 +17,14 @@ class Player
     @name
   end
 
+  def influence_mood(mood)
+    @feeling = mood
+  end
+
+  def feelings
+    puts "Right now you're #{@feeling}."
+  end
+
   def test_name_change(input)
     @name = input
   end
@@ -61,6 +69,10 @@ class Area
   def initialize(player)
     @prev_area = player.where?
     @player = player
+    # For spacing out each area.
+    puts
+    puts "*********".center(70)
+    puts
   end
 
   def help
@@ -84,6 +96,8 @@ class StartWoods < Area
         ProgressLog.new(@player).save_game
       when "inventory", "check inventory"
         puts "Inventory!"
+      when "feelings", "check feelings", "check my feelings", "how am i feeling"
+        @player.feelings
       when "help"
         help
       else
@@ -96,14 +110,21 @@ end
 
 class NorthWoods < Area
   def first_time
+    @player.influence_mood('feeling rather intimidated')
+    puts "You arrive in the northern woods.  A tall hooded man waits"
+    puts "in the clearing ahead."
+    puts "\"Ahh..\" he says, watching you. \"I've been expecting you, #{@player.print_name}.\""
+    puts "He holds out a metallic hand towards you."
+    puts "What do you do?"
     while @player.alive? do
-    puts "You arrive in the northern woods."
     input = gets.chomp.downcase
       case input
       when "save", "save game", "save progress"
         ProgressLog.new(@player).save_game
       when "inventory", "check inventory"
         puts "Inventory!"
+      when "feelings", "check feelings", "check my feelings", "how am i feeling"
+        @player.feelings
       when "help"
         help
       else
