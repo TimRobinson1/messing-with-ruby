@@ -740,7 +740,7 @@ class Timer
     @zeds_killed = @player_zeds_killed + @survivor_zeds_killed
   end
 
-  def date?
+  def date
     @date
   end
 
@@ -748,6 +748,92 @@ class Timer
     @date += 1
   end
 end
+
+class Radio
+  def initialize
+    @power = 100
+    @receives_signal = true
+    @two_way = false
+  end
+
+  def dead_battery?(time)
+    if @power == 0 then puts "The battery is dead." else play(time) end
+  end
+
+  def play(day)
+      @power -= rand(5..17)
+      puts "You check the radio and tune in to this:"
+      case day
+      when 1
+        puts '"Reports are coming in of a strange infection sweeping across the country.'
+        puts 'Our reporters are on the scene at the outskirts of the military quarantine,'
+        puts 'and we\'ll keep you up to date with the latest news."'
+      when 2
+        puts '"We\'ve got all your favourite tunes, right here, on KMCL radio! Stay tuned."'
+      when 3
+        puts '"The people inside the quarantine zone... I feel for them.  It\'s not something"'
+        puts 'any of us can possibly imagine. The infected are ravenous, and just... evil.'
+        puts 'Stay safe everybody."'
+      when 4
+        puts '"A level nine alert has been issued. You are advised to remain in your homes'
+        puts 'and to avoid attempting to contact anyone outside of your own home. Lock your'
+        puts 'doors and windows and await further instructions."'
+      when 5
+        puts '"So Jim, what do you think of this White Flu epidemic?"'
+        puts '"Classic government manipulation case, Barry. You can\'t really think'
+        puts 'that there are literal zombies out there? It\'s fear tactics to control us."'
+        puts '"If you say so Jim! Stay tuned for more after this message from our sponsors."'
+      when 6
+        puts '"It\'s not viral, it\'s not bacterial, hell it\'s not even fungal. Preliminary'
+        puts 'research suggests that it\'s nothing the human race has ever encountered before,'
+        puts 'an entirely new kind of life, a new form of parasite. And it\'s not happy with us."'
+      when 7
+        puts '"Reports suggest that the president had taken ill earlier this morning following'
+        puts 'his sudden departure from a White House press briefing. Speculation around the'
+        puts 'president\'s health being endangered by the White Flu is unconfirmed at this time."'
+      when 8
+        puts '"The Bible saw this coming. This is the end of days."'
+      when 9
+        puts '"Rampant speculation was confirmed this morning when vice president Leyland'
+        puts 'addressed the nation and announced the death of president De Santis. It has'
+        puts 'been confirmed, it seems, that it was in fact the White Flu epidemic."'
+      when 10
+        puts '"This morning the Eastern border of the quarantine zone was breached'
+        puts 'by several infected individuals and the entire operation has been brought'
+        puts 'to an end. General Scott Thurman is attempting to re-establish a quaratnine'
+        puts 'zone, although with the death of president De Santis as of yesterday, many'
+        puts 'are calling into question the tactic\'s effectiveness in the first place."'
+      when 11
+        puts '"A state of martial law has been declared across the nation. Please remain'
+        puts 'calm, stay indoors, and avoid any unnecessary contact with others."'
+      when 20
+        puts '"If anyone can hear me... that means you\'re inside the zone too.'
+        puts 'God help us all."'
+      when 25
+        puts '"...Under...  Attack... tell the.... first lady.... shelter for them....'
+        puts 'Take care.... we\'re the last of us...... Henman out."'
+      when 30
+        puts '"THIS IS THE END OF DAYS.  PURGE THE INFECTED.  SURVIVE."'
+      when 40
+        puts '"The blood tide is rising. These are the closing days of the human era.'
+        puts 'and the final hours... of my life."'
+      when 50
+        puts '"The nukes are coming."'
+      when 100
+        puts '"This is President Zombie speaking. There are still a few small pockets'
+        puts 'of human resistence, but otherwise, situation normal. Carry on, brain-'
+        puts 'eating brethren.'
+      else
+        puts '"This is the automated emergency broadcast system. All citizens are advised to remain'
+        puts 'in your homes and barricade any and all means of entrance. Infected individuals'
+        puts 'are highly dangerous, and the use of lethal force is authorised under'
+        puts 'the White Flu Eradication & Civil Protection Act - Section 5.'
+        puts 'Await further instructions."'
+      end
+  end
+
+end
+
 
 
 def scavenge(base, map)
@@ -810,76 +896,6 @@ def scavenge(base, map)
 
 end
 
-def radio(day)
-  case day
-  when 1
-    puts '"Reports are coming in of a strange infection sweeping across the country.'
-    puts 'Our reporters are on the scene at the outskirts of the military quarantine,'
-    puts 'and we\'ll keep you up to date with the latest news."'
-  when 2
-    puts '"We\'ve got all your favourite tunes, right here, on KMCL radio! Stay tuned."'
-  when 3
-    puts '"The people inside the quarantine zone... I feel for them.  It\'s not something"'
-    puts 'any of us can possibly imagine. The infected are ravenous, and just... evil.'
-    puts 'Stay safe everybody."'
-  when 4
-    puts '"A level nine alert has been issued. You are advised to remain in your homes'
-    puts 'and to avoid attempting to contact anyone outside of your own home. Lock your'
-    puts 'doors and windows and await further instructions."'
-  when 5
-    puts '"So Jim, what do you think of this White Flu epidemic?"'
-    puts '"Classic government manipulation case, Barry. You can\'t really think'
-    puts 'that there are literal zombies out there? It\'s fear tactics to control us."'
-    puts '"If you say so Jim! Stay tuned for more after this message from our sponsors."'
-  when 6
-    puts '"It\'s not viral, it\'s not bacterial, hell it\'s not even fungal. Preliminary'
-    puts 'research suggests that it\'s nothing the human race has ever encountered before,'
-    puts 'an entirely new kind of life, a new form of parasite. And it\'s not happy with us."'
-  when 7
-    puts '"Reports suggest that the president had taken ill earlier this morning following'
-    puts 'his sudden departure from a White House press briefing. Speculation around the'
-    puts 'president\'s health being endangered by the White Flu is unconfirmed at this time."'
-  when 8
-    puts '"The Bible saw this coming. This is the end of days."'
-  when 9
-    puts '"Rampant speculation was confirmed this morning when vice president Leyland'
-    puts 'addressed the nation and announced the death of president De Santis. It has'
-    puts 'been confirmed, it seems, that it was in fact the White Flu epidemic."'
-  when 10
-    puts '"This morning the Eastern border of the quarantine zone was breached'
-    puts 'by several infected individuals and the entire operation has been brought'
-    puts 'to an end. General Scott Thurman is attempting to re-establish a quaratnine'
-    puts 'zone, although with the death of president De Santis as of yesterday, many'
-    puts 'are calling into question the tactic\'s effectiveness in the first place."'
-  when 11
-    puts '"A state of martial law has been declared across the nation. Please remain'
-    puts 'calm, stay indoors, and avoid any unnecessary contact with others."'
-  when 20
-    puts '"If anyone can hear me... that means you\'re inside the zone too.'
-    puts 'God help us all."'
-  when 25
-    puts '"...Under...  Attack... tell the.... first lady.... shelter for them....'
-    puts 'Take care.... we\'re the last of us...... Henman out."'
-  when 30
-    puts '"THIS IS THE END OF DAYS.  PURGE THE INFECTED.  SURVIVE."'
-  when 40
-    puts '"The blood tide is rising. These are the closing days of the human era.'
-    puts 'and the final hours... of my life."'
-  when 50
-    puts '"The nukes are coming."'
-  when 100
-    puts '"This is President Zombie speaking. There are still a few small pockets'
-    puts 'of human resistence, but otherwise, situation normal. Carry on, brain-'
-    puts 'eating brethren.'
-  else
-    puts '"This is the automated emergency broadcast system. All citizens are advised to remain'
-    puts 'in your homes and barricade any and all means of entrance. Infected individuals'
-    puts 'are highly dangerous, and the use of lethal force is authorised under'
-    puts 'the White Flu Eradication & Civil Protection Act - Section 5.'
-    puts 'Await further instructions."'
-  end
-end
-
 def explore(map)
   map.show
   if map.exhausted?
@@ -906,9 +922,9 @@ player = Survivor.new "player"
 map = Map.new
 help = Info.new
 tracker = Timer.new
+radio = Radio.new
 
 $survivors = {"player" => player}
-
 standard_names = ["Amelia", "Andrei", "Joel", "Louis", "Bill", "Zoey", "Francis", "Ellie", "Sarah", "Kim"]
 
 puts "Nobody saw the zombie apocalypse coming, yet here it is..."
@@ -929,11 +945,9 @@ else
   $survivors[name.downcase] = (surv2 = Survivor.new(name))
 end
 
-puts standard_names
-
 while player.alive? do
 
-  if tracker.date? > 1
+  if tracker.date > 1
 
     if ($survivors.count_available > base.food_supply) && (base.food_supply != 0)
       puts "There's not enough food in storage for everyone to eat".bd_news
@@ -989,7 +1003,7 @@ while player.alive? do
   end
 
   puts "*"*30
-  puts "A new day dawns.  Day #{tracker.date?}"
+  puts "A new day dawns.  Day #{tracker.date}"
   $survivors.each do |name, person|
     if person.away?
       person.mission(base)
@@ -997,7 +1011,7 @@ while player.alive? do
   end
   if base.food_supply > 0
     puts "You have #{base.food_supply} portions of food."
-    if tracker.date? == 1
+    if tracker.date == 1
       puts "Each portion will feed one survivor for one day."
     end
   else
@@ -1005,7 +1019,7 @@ while player.alive? do
   end
   puts "The water supply is still functional."
 
-  if tracker.date? == 1
+  if tracker.date == 1
     puts "You've set up your base in the small house."
     puts "Through the window you can check on the zombie crowds."
     puts "You have a small radio to keep track of the world\'s status."
@@ -1067,8 +1081,7 @@ while player.alive? do
 
       when "radio", "listen to radio", "check radio"
 
-        puts "You check the radio and tune in to this:"
-        radio(tracker.date?)
+        radio.dead_battery?(tracker.date)
 
       when "help", "help "
 
