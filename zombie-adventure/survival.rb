@@ -754,15 +754,28 @@ class Radio
     @power = 100
     @receives_signal = true
     @two_way = false
+    @radio_used = false
   end
 
   def dead_battery?(time)
-    if @power == 0 then puts "The battery is dead." else play(time) end
+    if @power <= 0 then puts "The battery is dead." else play(time) end
+  end
+
+  def refresh
+    @radio_used = false
+  end
+
+  def used?(time)
+    if @radio_used
+      puts "You've already heard today's broadcast."
+    else
+      dead_battery?(time)
+    end
   end
 
   def play(day)
+      puts "With the battery level at #{@power}%, you get the radio working and tune in:"
       @power -= rand(5..17)
-      puts "You check the radio and tune in to this:"
       case day
       when 1
         puts '"Reports are coming in of a strange infection sweeping across the country.'
@@ -830,6 +843,7 @@ class Radio
         puts 'the White Flu Eradication & Civil Protection Act - Section 5.'
         puts 'Await further instructions."'
       end
+      @radio_used = true
   end
 
 end
@@ -1081,7 +1095,7 @@ while player.alive? do
 
       when "radio", "listen to radio", "check radio"
 
-        radio.dead_battery?(tracker.date)
+        radio.used?(tracker.date)
 
       when "help", "help "
 
@@ -1149,6 +1163,7 @@ while player.alive? do
   end
 
   tracker.advance_time
+  radio.refresh
   base.zombies_daily_change
   base.safe?
   base.daily_damage
