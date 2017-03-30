@@ -655,8 +655,7 @@ class Info
     puts "For example, 'help list' will show you the list of available commands."
   end
 
-  def query question
-
+  def query(question)
     case question
     when "rest"
       rest
@@ -700,9 +699,9 @@ class Info
   end
 
   def build
-    puts "Using the 'build' or 'repair' function currently allows you to repair"
-    puts "the base against zombie damage.  Zombie damage occurs daily"
-    puts "depending on the level of activity outside."
+    puts %q(  Using the "build" or "repair" function currently allows you to repair
+    the base against zombie damage.  Zombie damage occurs daily
+    depending on the level of activity outside.)
   end
 
   def scavenge
@@ -876,7 +875,6 @@ def explore(map)
 end
 
 def survivor_choice
-
   puts "Which survivor would you like to choose?"
 
   $survivors.each do |name, person|
@@ -884,15 +882,11 @@ def survivor_choice
       puts "-- #{name.capitalize}"
     end
   end
-
 end
 
 base = Base.new
-
 player = Survivor.new "player"
-
 map = Map.new
-
 help = Info.new
 
 $survivors = {"player" => player}
@@ -907,12 +901,10 @@ puts "Would you like to name these survivors?"
 input = gets.chomp.downcase
 if input == "yes"
   print "Survivor 1: "
-  name = gets.chomp
-  surv1 = Survivor.new name
+  surv1 = Survivor.new(name = gets.chomp)
   $survivors[name.downcase] = surv1
   print "Survivor 2: "
-  name = gets.chomp
-  surv2 = Survivor.new name
+  surv2 = Survivor.new(name = gets.chomp)
   $survivors[name.downcase] = surv2
 else
   puts "Right, they must already have their own names!".gd_news
