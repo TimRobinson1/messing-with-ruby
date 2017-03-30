@@ -686,6 +686,9 @@ class Info
   def radio
     puts "You can check the radio each day to get an update"
     puts "on how the world is coping with the zombie apocalypse."
+    puts "It's a simple battery-powered radio, so the battery will"
+    puts "die faster the more you turn it on and use it."
+    puts "Each time you use it, it will display the battery life."
   end
 
   def rest
