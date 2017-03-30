@@ -181,7 +181,7 @@ end
 class Base
   def initialize
     @safety = 100
-    @food = 15
+    @food = 16
     @water = 10
     @water_supply = true
     @people = 3
@@ -279,7 +279,7 @@ class Base
       "The base is not very secure."
     when (11..29)
       "The base is vulnerable."
-    when (0..10)
+    when (-50..10)
       "The base is extremely vulnerable!".bd_news
     end
 
@@ -909,7 +909,7 @@ tracker = Timer.new
 
 $survivors = {"player" => player}
 
-standard = ["Amelia", "Andrei", "Joel", "Louis", "Bill", "Zoey", "Francis", "Ellie", "Sarah", "Kim"]
+standard_names = ["Amelia", "Andrei", "Joel", "Louis", "Bill", "Zoey", "Francis", "Ellie", "Sarah", "Kim"]
 
 puts "Nobody saw the zombie apocalypse coming, yet here it is..."
 puts "You managed to survive the initial outbreak."
@@ -919,21 +919,17 @@ puts "Would you like to name these survivors?"
 input = gets.chomp.downcase
 if input == "yes"
   print "Survivor 1: "
-  surv1 = Survivor.new(name = gets.chomp)
-  $survivors[name.downcase] = surv1
+  $survivors[(name = gets.chomp).downcase] = (surv1 = Survivor.new(name))
   print "Survivor 2: "
-  surv2 = Survivor.new(name = gets.chomp)
-  $survivors[name.downcase] = surv2
+  $survivors[(name = gets.chomp).downcase] = (surv2 = Survivor.new(name))
 else
   puts "Right, they must already have their own names!".gd_news
-  name = standard.sample
-  surv1 = Survivor.new name
-  $survivors[name.downcase] = surv1
-  standard = standard - name.split(" ")
-  name = standard.sample
-  surv2 = Survivor.new name
-  $survivors[name.downcase] = surv2
+  $survivors[name = standard_names.sample] = (surv1 = Survivor.new(name))
+  name = (standard_names -= name.split(" ")).sample
+  $survivors[name.downcase] = (surv2 = Survivor.new(name))
 end
+
+puts standard_names
 
 while player.alive? do
 
