@@ -699,9 +699,9 @@ class Info
   end
 
   def build
-    puts %q(  Using the "build" or "repair" function currently allows you to repair
-    the base against zombie damage.  Zombie damage occurs daily
-    depending on the level of activity outside.)
+    puts "Using the 'build' or 'repair' function currently allows you to repair"
+    puts "the base against zombie damage.  Zombie damage occurs daily"
+    puts "depending on the level of activity outside."
   end
 
   def scavenge
@@ -729,6 +729,23 @@ class Info
     commands.each do |x|
       puts "-- #{x}"
     end
+  end
+end
+
+class Timer
+  def initialize
+    @date = 1
+    @player_zeds_killed = 0
+    @survivor_zeds_killed = 0
+    @zeds_killed = @player_zeds_killed + @survivor_zeds_killed
+  end
+
+  def date?
+    @date
+  end
+
+  def advance_time
+    @date += 1
   end
 end
 
@@ -888,6 +905,7 @@ base = Base.new
 player = Survivor.new "player"
 map = Map.new
 help = Info.new
+tracker = Timer.new
 
 $survivors = {"player" => player}
 
@@ -917,11 +935,9 @@ else
   $survivors[name.downcase] = surv2
 end
 
-day = 1
-
 while player.alive? do
 
-  if day > 1
+  if tracker.date? > 1
 
     if ($survivors.count_available > base.food_supply) && (base.food_supply != 0)
       puts "There's not enough food in storage for everyone to eat".bd_news
@@ -977,7 +993,7 @@ while player.alive? do
   end
 
   puts "*"*30
-  puts "A new day dawns.  Day #{day}"
+  puts "A new day dawns.  Day #{tracker.date?}"
   $survivors.each do |name, person|
     if person.away?
       person.mission(base)
@@ -985,7 +1001,7 @@ while player.alive? do
   end
   if base.food_supply > 0
     puts "You have #{base.food_supply} portions of food."
-    if day == 1
+    if tracker.date? == 1
       puts "Each portion will feed one survivor for one day."
     end
   else
@@ -993,7 +1009,7 @@ while player.alive? do
   end
   puts "The water supply is still functional."
 
-  if day == 1
+  if tracker.date? == 1
     puts "You've set up your base in the small house."
     puts "Through the window you can check on the zombie crowds."
     puts "You have a small radio to keep track of the world\'s status."
@@ -1056,7 +1072,7 @@ while player.alive? do
       when "radio", "listen to radio", "check radio"
 
         puts "You check the radio and tune in to this:"
-        radio(day)
+        radio(tracker.date?)
 
       when "help", "help "
 
@@ -1123,9 +1139,7 @@ while player.alive? do
     end
   end
 
-  day += 1
-
-
+  tracker.advance_time
   base.zombies_daily_change
   base.safe?
   base.daily_damage
