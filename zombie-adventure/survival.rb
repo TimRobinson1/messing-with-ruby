@@ -764,6 +764,10 @@ class Radio
     if @power <= 0 then puts "The battery is dead." else play(time) end
   end
 
+  def battery_level
+    @power
+  end
+
   def refresh
     @radio_used = false
   end
@@ -848,12 +852,11 @@ class Radio
       end
       @radio_used = true
   end
-
 end
 
 
 
-def scavenge(base, map)
+def scavenge(base, map, radio)
   puts "What would you like to scavenge for?"
   input = gets.chomp.downcase
   target = "exit"
@@ -863,7 +866,7 @@ def scavenge(base, map)
   when "water"
     if base.water?
       puts "The base has its own water supply."
-      scavenge(base, map)
+      scavenge(base, map, radio)
     else
       target = "water"
     end
@@ -876,7 +879,7 @@ def scavenge(base, map)
   else
     puts "Can't scavenge for '#{input}'."
     puts "If you don't want to scavenge, use 'nevermind'."
-    scavenge(base, map)
+    scavenge(base, map, radio)
   end
 
   if target != "exit"
@@ -896,7 +899,12 @@ def scavenge(base, map)
       elsif $survivors[input].away?
         puts "That survivor is unavailable."
       else
-        puts "Sending #{input.capitalize} to scavenge for #{target}!"
+        if radio.battery_level < 35
+          puts "#{input.capitalize} will scavenge for some #{target} and they'll keep"
+          puts "an eye out for a spare radio battery."
+        else
+          puts "Sending #{input.capitalize} to scavenge for #{target}!"
+        end
         $survivors[input].scav_mission(target)
         time = rand(2..4)
         death = rand(1..80)
@@ -906,9 +914,7 @@ def scavenge(base, map)
     else
       puts "There are no survivors by that name."
     end
-
     puts "What would you like to do now?"
-
   end
 
 end
@@ -957,7 +963,7 @@ if input == "yes"
   $survivors[(name = gets.chomp).downcase] = (surv2 = Survivor.new(name))
 else
   puts "Right, they must already have their own names!".gd_news
-  $survivors[name = standard_names.sample] = (surv1 = Survivor.new(name))
+  $survivors[name = standard_names.sample.downcase] = (surv1 = Survivor.new(name))
   name = (standard_names -= name.split(" ")).sample
   $survivors[name.downcase] = (surv2 = Survivor.new(name))
 end
@@ -1073,7 +1079,7 @@ while player.alive? do
         base.repair
 
       when "scavenge", "find supplies"
-        scavenge(base, map)
+        scavenge(base, map, radio)
 
       when "explore"
         if player.ready?
