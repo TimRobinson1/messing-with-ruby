@@ -105,7 +105,7 @@ class Survivor
     @illness
   end
 
-  def mission(base)
+  def mission(base, tracker)
     if @time > @days_out
       puts "#{name} has not returned from scavenging yet."
       @days_out += 1
@@ -265,6 +265,7 @@ class Base
       puts "Zombies broke through to your base!"
       puts "Everyone was killed in the night."
       puts "Game over, hero.".bd_news
+      tracker.highscores
       exit(0)
     end
   end
@@ -489,6 +490,7 @@ class Explore
       puts "from a mix of pain and fear. Who knows what happened to you, because you"
       puts "never woke up after that."
       puts "Dead! Game over.".bd_news
+      puts tracker.highscores
       exit(0)
     end
   end
@@ -546,6 +548,7 @@ class Explore
       puts "zombie sinks his teeth into your jugular from behind."
       puts "You sink to your knees, clutching your neck."
       puts "Dead. Game over!".bd_news
+      tracker.highscores
       exit(0)
     elsif chance < 50
       puts "You wander around aimlessly, unable to locate the source"
@@ -576,6 +579,7 @@ class Explore
           if odds == 1
             puts "The survivor senses your aggression, overpowers you, and snaps your neck."
             puts "Dead. Game over!".bd_news
+            tracker.highscores
             exit(0)
           else
             puts "You pounce on them before they can fight back, killing them quickly."
@@ -747,8 +751,22 @@ class Timer
     @date
   end
 
+  def survivor_fighting(num)
+    @survivor_zeds_killed += rand(1..num)
+  end
+
+  def player_fighting(num)
+    @player_zeds_killed  += rand(1..num)
+  end
+
   def advance_time
     @date += 1
+  end
+
+  def highscores
+    puts "No. of zombies you killed: #{@player_zeds_killed}"
+    puts "No. of zombies your survivors killed: #{@survivor_zeds_killed}"
+    puts "Total zombies killed: #{@zeds_killed}"
   end
 end
 
@@ -941,7 +959,7 @@ def survivor_choice
 end
 
 base = Base.new
-player = Survivor.new "player"
+player = Survivor.new("player")
 map = Map.new
 help = Info.new
 tracker = Timer.new
@@ -1022,6 +1040,7 @@ while player.alive? do
 
   if player.alive? == false
     puts "You died of #{player.death}!  Game over.".bd_news
+    tracker.highscores
     exit(0)
   end
 
@@ -1029,7 +1048,7 @@ while player.alive? do
   puts "A new day dawns.  Day #{tracker.date}"
   $survivors.each do |name, person|
     if person.away?
-      person.mission(base)
+      person.mission(base, tracker)
     end
   end
   if base.food_supply > 0
