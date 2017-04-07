@@ -117,12 +117,14 @@ class Survivor
       @days_out = 0
     elsif @survival_odds < (@threat*8)
       puts "#{name} has returned, but looking rather pale. They've been scratched by infected.".bd_news
+      tracker.survivor_fighting(18)
       @illness = true
       @scavenging = false
       @days_out = 0
     else
       units_found = rand(5..30)
       puts "#{name} has returned from scavenging with #{units_found} #{@supplies}!".gd_news
+      tracker.survivor_fighting(7)
       @scavenging = false
       @days_out = 0
       tired
@@ -260,7 +262,7 @@ class Base
     end
   end
 
-  def safe?
+  def safe?(tracker)
     if @safety <= 0
       puts "Zombies broke through to your base!"
       puts "Everyone was killed in the night."
@@ -347,7 +349,6 @@ you've searched are marked with an 'X'"
       false
     end
   end
-
 end
 
 class Explore
@@ -490,7 +491,6 @@ class Explore
       puts "from a mix of pain and fear. Who knows what happened to you, because you"
       puts "never woke up after that."
       puts "Dead! Game over.".bd_news
-      puts tracker.highscores
       exit(0)
     end
   end
@@ -548,7 +548,6 @@ class Explore
       puts "zombie sinks his teeth into your jugular from behind."
       puts "You sink to your knees, clutching your neck."
       puts "Dead. Game over!".bd_news
-      tracker.highscores
       exit(0)
     elsif chance < 50
       puts "You wander around aimlessly, unable to locate the source"
@@ -579,7 +578,6 @@ class Explore
           if odds == 1
             puts "The survivor senses your aggression, overpowers you, and snaps your neck."
             puts "Dead. Game over!".bd_news
-            tracker.highscores
             exit(0)
           else
             puts "You pounce on them before they can fight back, killing them quickly."
@@ -607,7 +605,7 @@ class Explore
       puts "packed with shambling zombies. You pause, and manage to close the door"
       puts "before they notice you. You proceed to loot the rest of the building."
       success(true)
-    elsif chance <= 97
+    elsif chance <= 95
       puts "The noise seems to be coming from a hissing radio. It crackles and hisses"
       puts "with bursts of static, before suddenly exclaiming 'The end of times are here,"
       puts "and we all must accept our fates. There is no escape. This is the story of how"
@@ -622,8 +620,7 @@ class Explore
       puts "like it or not!"
       print "Name the dog: "
       input = gets.chomp
-      dog = Survivor.new input
-      $survivors[input.downcase] = dog
+      $survivors[input.downcase] = Survivor.new(input)
       success(true)
     end
   end
@@ -685,6 +682,8 @@ class Info
 
   def map
     puts "This will show you the current map."
+    puts "The map is useful for checking how many more areas"
+    puts "you have left available to scavenge."
   end
 
   def radio
@@ -764,6 +763,7 @@ class Timer
   end
 
   def highscores
+    puts "You survived #{@date} days."
     puts "No. of zombies you killed: #{@player_zeds_killed}"
     puts "No. of zombies your survivors killed: #{@survivor_zeds_killed}"
     puts "Total zombies killed: #{@zeds_killed}"
@@ -1193,7 +1193,7 @@ while player.alive? do
   tracker.advance_time
   radio.refresh
   base.zombies_daily_change
-  base.safe?
+  base.safe?(tracker)
   base.daily_damage
 
   $survivors.each do |name, person|
