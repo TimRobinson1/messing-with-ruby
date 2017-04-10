@@ -181,7 +181,7 @@ class Survivor
 end
 
 class Base
-  def initialize
+  def initialize(tracker)
     @safety = 100
     @food = 16
     @water = 10
@@ -192,6 +192,7 @@ class Base
     @zombie_activity = "small"
     @danger = 3
     @medicine = 0
+    @time = tracker
   end
 
   def window_check
@@ -224,6 +225,7 @@ class Base
     elsif @building_supplies > 0
       num = [0.5, 1, 1.5]
       @safety += @building_supplies * num.sample
+      @time.repairs(@safety)
       puts "Base being repaired!"
       if @safety > 100
         @safety = 100
@@ -744,6 +746,8 @@ class Timer
     @player_zeds_killed = 0
     @survivor_zeds_killed = 0
     @zeds_killed = @player_zeds_killed + @survivor_zeds_killed
+    @repairs = 0
+    @repair_health = 0
   end
 
   def date
@@ -762,11 +766,18 @@ class Timer
     @date += 1
   end
 
+  def repairs(num)
+    @repairs += 1
+    @repair_health += num
+  end
+
   def highscores
     puts "You survived #{@date} days."
     puts "No. of zombies you killed: #{@player_zeds_killed}"
     puts "No. of zombies your survivors killed: #{@survivor_zeds_killed}"
     puts "Total zombies killed: #{@zeds_killed}"
+    puts "Times base was repaired: #{@repairs}"
+    puts "Total base health repaired: #{@repair_health}"
   end
 end
 
@@ -968,11 +979,11 @@ def survivor_choice
   end
 end
 
+tracker = Timer.new
 base = Base.new
 player = Survivor.new("player")
 map = Map.new
 help = Info.new
-tracker = Timer.new
 radio = Radio.new
 
 $survivors = {"player" => player}
