@@ -1172,7 +1172,7 @@ while player.alive? do
         base.repair
 
       when "scavenge", "find supplies"
-        scavenge(base, map, radio)
+        Scavenge.new(base, map, radio).assign_target
 
       when "explore"
         if player.ready?
