@@ -944,71 +944,6 @@ class Scavenge
   end
 end
 
-
-
-def scavenge(base, map, radio)
-  puts "What would you like to scavenge for?"
-  input = gets.chomp.downcase
-  target = "exit"
-  case input
-  when "food"
-    target = "food"
-  when "water"
-    if base.water?
-      puts "The base has its own water supply."
-      scavenge(base, map, radio)
-    else
-      target = "water"
-    end
-  when "building supplies", "building materials"
-    target = "building supplies"
-  when "medicine"
-    target = "medicine"
-  when "nevermind", "nothing"
-    puts "We'll scavenge later."
-  else
-    puts "Can't scavenge for '#{input}'."
-    puts "If you don't want to scavenge, use 'nevermind'."
-    scavenge(base, map, radio)
-  end
-
-  if target != "exit"
-    survivor_choice
-
-    input = gets.chomp.downcase
-
-    if input == "player" || input == "me"
-      puts "Use the 'explore' function if you wish to scavenge by yourself!"
-    elsif input == "dog"
-      puts "You can't send the dog to scavenge by themselves!"
-    elsif $survivors.include?(input)
-      if $survivors[input].unable?
-        puts "They're not looking too great.. they shouldn't be going out in that condition."
-      elsif !$survivors[input].ready?
-        puts "They've already been scavenging today."
-      elsif $survivors[input].away?
-        puts "That survivor is unavailable."
-      else
-        if radio.battery_level < 35
-          puts "#{input.capitalize} will scavenge for some #{target} and they'll keep"
-          puts "an eye out for a spare radio battery."
-        else
-          puts "Sending #{input.capitalize} to scavenge for #{target}!"
-        end
-        $survivors[input].scav_mission(target)
-        time = rand(2..4)
-        death = rand(1..80)
-        threat = base.danger_level
-        $survivors[input].survival_odds(time, death, threat)
-      end
-    else
-      puts "There are no survivors by that name."
-    end
-    puts "What would you like to do now?"
-  end
-
-end
-
 def explore(map)
   map.show
   if map.exhausted?
@@ -1144,8 +1079,6 @@ while player.alive? do
   end
 
   puts "What would you like to do?"
-
-  Scavenge.new(base, map, radio).assign_target
 
   while player.alive? do
     input = gets.chomp.downcase
