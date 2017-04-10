@@ -886,17 +886,21 @@ class Scavenge
     case input
     when "food"
       @target = "food"
+      hero_choice
     when "water"
       if @base.water?
         puts "The base has its own water supply."
         assign_target
       else
         @target = "water"
+        hero_choice
       end
     when "building supplies", "building materials"
       @target = "building supplies"
+      hero_choice
     when "medicine"
       @target = "medicine"
+      hero_choice
     when "nevermind", "nothing"
       puts "We'll scavenge later."
     else
@@ -904,7 +908,6 @@ class Scavenge
       puts "If you don't want to scavenge, use 'nevermind'."
       assign_target
     end
-    hero_choice if @target != "exit"
   end
 
   def return_target
@@ -1072,7 +1075,7 @@ while player.alive? do
     puts "You've set up your base in the small house."
     puts "Through the window you can check on the zombie crowds."
     puts "You have a small radio to keep track of the world\'s status."
-    puts "The other survivors, #{surv1.name} and #{surv2.name}, look to you for guidance."
+    puts "The other survivors, #{surv1.name.capitalize} and #{surv2.name.capitalize}, look to you for guidance."
     puts "Go scavenging (or send others!), check your map, find supplies,"
     puts "barricade your base, rest to end the day. Do whatever you can to survive."
     puts "Use 'help list' to see all available common commands."
