@@ -904,10 +904,43 @@ class Scavenge
       puts "If you don't want to scavenge, use 'nevermind'."
       assign_target
     end
+    hero_choice if @target != "exit"
   end
 
   def return_target
     puts @target
+  end
+
+  def hero_choice
+    survivor_choice
+    input = gets.chomp.downcase
+    if input == "player" || input == "me"
+      puts "Use the 'explore' function if you wish to scavenge by yourself!"
+    elsif input == "dog"
+      puts "You can't send the dog to scavenge by themselves!"
+    elsif $survivors.include?(input)
+      if $survivors[input].unable?
+        puts "They're not looking too great.. they shouldn't be going out in that condition."
+      elsif !$survivors[input].ready?
+        puts "They've already been scavenging today."
+      elsif $survivors[input].away?
+        puts "That survivor is unavailable."
+      else
+        if @radio.battery_level < 35
+          puts "#{input.capitalize} will scavenge for some #{@target} and they'll keep"
+          puts "an eye out for a spare radio battery."
+        else
+          puts "Sending #{input.capitalize} to scavenge for #{@target}!"
+        end
+        $survivors[input].scav_mission(@target)
+        @time = rand(2..4)
+        @death = rand(1..80)
+        @threat = @base.danger_level
+        $survivors[input].survival_odds(@time, @death, @threat)
+      end
+    else
+      puts "There are no survivors by that name."
+    end
   end
 end
 
@@ -1011,8 +1044,6 @@ puts "Nobody saw the zombie apocalypse coming, yet here it is..."
 puts "You managed to survive the initial outbreak."
 puts "You find yourself in a small house with two other survivors."
 puts "Would you like to name these survivors?"
-scavenge = Scavenge.new(base, map, radio)
-scavenge.assign_target
 
 input = gets.chomp.downcase
 if input == "yes"
@@ -1113,6 +1144,8 @@ while player.alive? do
   end
 
   puts "What would you like to do?"
+
+  Scavenge.new(base, map, radio).assign_target
 
   while player.alive? do
     input = gets.chomp.downcase
