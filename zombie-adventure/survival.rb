@@ -991,7 +991,8 @@ if input == "yes"
   $survivors[(name = gets.chomp).downcase] = (surv2 = Survivor.new(name))
 else
   puts "Right, they must already have their own names!".gd_news
-  $survivors[name = standard_names.sample.downcase] = (surv1 = Survivor.new(name))
+  name = standard_names.sample
+  $survivors[name.downcase] = (surv1 = Survivor.new(name))
   name = (standard_names -= name.split(" ")).sample
   $survivors[name.downcase] = (surv2 = Survivor.new(name))
 end
