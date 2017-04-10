@@ -872,6 +872,45 @@ class Radio
   end
 end
 
+class Scavenge
+  def initialize(base, map, radio)
+    @base = base
+    @map = map
+    @radio = radio
+    @target = "exit"
+  end
+
+  def assign_target
+    puts "What would you like to scavenge for?"
+    input = gets.chomp.downcase
+    case input
+    when "food"
+      @target = "food"
+    when "water"
+      if @base.water?
+        puts "The base has its own water supply."
+        assign_target
+      else
+        @target = "water"
+      end
+    when "building supplies", "building materials"
+      @target = "building supplies"
+    when "medicine"
+      @target = "medicine"
+    when "nevermind", "nothing"
+      puts "We'll scavenge later."
+    else
+      puts "Can't scavenge for '#{input}'."
+      puts "If you don't want to scavenge, use 'nevermind'."
+      assign_target
+    end
+  end
+
+  def return_target
+    puts @target
+  end
+end
+
 
 
 def scavenge(base, map, radio)
@@ -972,6 +1011,8 @@ puts "Nobody saw the zombie apocalypse coming, yet here it is..."
 puts "You managed to survive the initial outbreak."
 puts "You find yourself in a small house with two other survivors."
 puts "Would you like to name these survivors?"
+scavenge = Scavenge.new(base, map, radio)
+scavenge.assign_target
 
 input = gets.chomp.downcase
 if input == "yes"
